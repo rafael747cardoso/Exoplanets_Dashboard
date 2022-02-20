@@ -10,4 +10,6 @@ mockup.pdf
 mockup.png
 todo.txt
 .Rproj.user
-
+renv
+.Rprofile
+Exoplanets_Dashboard.Rproj

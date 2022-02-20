@@ -4,12 +4,14 @@
 https://all-confirmed-exoplanets-dashboard.herokuapp.com/
 
 
-Exploratory analysis of the available data on all the confirmed exoplanets, acording to The Extrasolar
-Planets Encyclopaedia.
+Exploratory analysis of the available data on all the confirmed and candidate exoplanets, acording to The Extrasolar
+Planets Encyclopaedia and NASA Exoplanet Archive.
 
-## Data source
+## Data sources
 
 http://exoplanet.eu/
+
+https://exoplanetarchive.ipac.caltech.edu/docs/data.html
 
 ## Figures:
 
