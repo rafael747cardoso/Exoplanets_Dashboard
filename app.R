@@ -37,6 +37,11 @@ color3 = "#0B297B"
 
 ##################################################### Data ############################################################
 
+# The Extrasolar Planets Encyclopaedia:
+df_exoplant_eu = read.csv(file = paste0(path_data, "exoplanet_eu_catalog.csv"))
+
+# NASA Exoplanet Archive:
+df_exoplant_nasa = read.csv(file = paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
 
 
 
@@ -45,9 +50,18 @@ color3 = "#0B297B"
 
 server = function(input, output, session){
 
+    output$plot1 = renderPlotly(
+        plot_ly(data = df_exoplant_eu,
+                x = ~star_distance,
+                y= ~mass)
+    )
     
-    
-    
+    output$plot2 = renderPlotly(
+        plot_ly(data = df_exoplant_eu,
+                x = ~orbital_period,
+                y= ~semi_major_axis)
+    )
+        
     
 }
 
@@ -68,7 +82,7 @@ ui = fluidPage(
     tags$head(
         tags$link(rel = "shortcut icon",
                   type = "image/png",
-                  href = "logo_tab.png"),
+                  href = "logo_exoplanets.png"),
         tags$title("Exoplanets")
     ),
 
@@ -77,59 +91,59 @@ ui = fluidPage(
         id = "navbar-main",
         title = div(
             img(
-                src = "logo.png",
-                height = "40px",
-                width = "240px",
+                src = "logo_exoplanets.png",
+                height = "95px",
+                width = "350px",
                 class = "logo_bar"
             )
         ),
         position = "static-top",
         fluid = TRUE,
 
-        ################################################# Page 1 ####################################################
+        ##################################### Extrasolar Planets Encyclopaedia ########################################
 
         tabPanel(
             div(
                 img(
-                    src = "icon_1.png",
+                    src = "logo_exoplanet_eu.png",
                     height = "50px",
-                    width = "50px",
+                    width = "120px",
                     class = "tab-icon"
                 ),
                 div(
                     class = "tab-name",
-                    "Page 1"
+                    "Extrasolar Planets Encyclopaedia"
                 )
             ),
 
             fluidRow(
                 column(
                     width = 12,
-                    "lelele"
+                    plotlyOutput("plot1")
                 )
             )
         ),
 
-        ################################################# Page 2 #####################################################
+        ######################################## NASA Exoplanet Archive ###############################################
         
         tabPanel(
             div(
                 img(
-                    src = "icon_2.png",
+                    src = "logo_nasa_exoplanet_archive.jpeg",
                     height = "50px",
-                    width = "50px",
+                    width = "80px",
                     class = "tab-icon"
                 ),
                 div(
                     class = "tab-name",
-                    "Page 2"
+                    "NASA Exoplanet Archive"
                 )
             ),
 
             fluidRow(
                 column(
                     width = 12,
-                    "lalala"
+                    plotlyOutput("plot2")
                 )
             )
         )
