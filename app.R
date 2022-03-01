@@ -3,6 +3,9 @@
 ############################################### Exoplanets Dashboard ##################################################
 #######################################################################################################################
 
+# Dev or prod mode (deploy)
+app_dev = FALSE
+
 # Paths:
 path_funcs = "funcs/"
 path_data = "data/"
@@ -10,15 +13,28 @@ path_style = "www/"
 path_lib = "renv/library/R-4.1/x86_64-pc-linux-gnu/"
 
 # Packages:
-require(package = "shiny", lib.loc = path_lib)
-require(package = "shinydashboard", lib.loc = path_lib)
-require(package = "shinyWidgets", lib.loc = path_lib)
-require(package = "shinycssloaders", lib.loc = path_lib)
-require(package = "dplyr", lib.loc = path_lib)
-require(package = "plotly", lib.loc = path_lib)
-require(package = "DT", lib.loc = path_lib)
-require(package = "stringr", lib.loc = path_lib)
-
+packages = c(
+    "shiny",
+    "shinydashboard",
+    "shinyWidgets",
+    "shinycssloaders",
+    "dplyr",
+    "plotly",
+    "DT",
+    "stringr"
+)
+if(app_dev == TRUE){
+    for(pckg in packages){
+        library(package = pckg,
+                character.only = TRUE,
+                lib.loc = path_lib)
+    }
+} else{
+    for(pckg in packages){
+        require(package = pckg,
+                character.only = TRUE)
+    }
+}
 
 # Functions:
 # source(paste0(path_funcs, "func1.R"))

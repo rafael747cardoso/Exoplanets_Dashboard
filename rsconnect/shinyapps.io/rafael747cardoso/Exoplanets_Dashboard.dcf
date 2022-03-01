@@ -1,0 +1,13 @@
+name: Exoplanets_Dashboard
+title: Exoplanets_Dashboard
+username:
+account: rafael747cardoso
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5752735
+bundleId: 5627098
+url: https://rafael747cardoso.shinyapps.io/Exoplanets_Dashboard/
+when: 1646094178.7193
+lastSyncTime: 1646094178.71932
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,8 +1,7 @@
 
 # Exoplanets Dashboard
 
-https://all-confirmed-exoplanets-dashboard.herokuapp.com/
-
+https://rafael747cardoso.shinyapps.io/Exoplanets_Dashboard/
 
 Exploratory analysis of the available data on all the confirmed and candidate exoplanets, acording to The Extrasolar
 Planets Encyclopaedia and NASA Exoplanet Archive.
