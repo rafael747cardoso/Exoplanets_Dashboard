@@ -13,3 +13,5 @@ todo.txt
 renv
 .Rprofile
 Exoplanets_Dashboard.Rproj
+rsconnect
+renv.lock

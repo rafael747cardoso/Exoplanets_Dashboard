@@ -3,8 +3,8 @@
 ############################################### Exoplanets Dashboard ##################################################
 #######################################################################################################################
 
-# Dev or prod mode (deploy)
-app_dev = FALSE
+# Dev or prod mode (deploy):
+app_dev = TRUE
 
 # Paths:
 path_funcs = "funcs/"
@@ -54,10 +54,12 @@ color3 = "#0B297B"
 ##################################################### Data ############################################################
 
 # The Extrasolar Planets Encyclopaedia:
-df_exoplant_eu = read.csv(file = paste0(path_data, "exoplanet_eu_catalog.csv"))
+# df_exoplant_eu = read.csv(paste0(path_data, "exoplanet_eu_catalog.csv"))
+df_exoplant_eu = readRDS(paste0(path_data, "exoplanet_eu.rds"))
 
 # NASA Exoplanet Archive:
-df_exoplant_nasa = read.csv(file = paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
+# df_exoplant_nasa = read.csv(paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
+df_exoplant_nasa = readRDS(paste0(path_data, "exoplanet_nasa.rds"))
 
 
 
@@ -77,7 +79,7 @@ server = function(input, output, session){
                 x = ~orbital_period,
                 y= ~semi_major_axis)
     )
-        
+    
     
 }
 
