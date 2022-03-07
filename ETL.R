@@ -13,13 +13,17 @@ require(package = "dplyr", lib.loc = path_lib)
 require(package = "plotly", lib.loc = path_lib)
 require(package = "stringr", lib.loc = path_lib)
 require(package = "Amelia", lib.loc = path_lib)
+require(package = "RColorBrewer", lib.loc = path_lib)
 
 # Functions:
-# source(paste0(path_funcs, "func1.R"))
+source(paste0(path_funcs, "missing_analysis.R"))
 
 ###### The Extrasolar Planets Encyclopaedia
 
+# Read the data:
 df_exoplant_eu = read.csv(paste0(path_data, "exoplanet_eu_catalog.csv"))
+
+# Standardize the column names:
 names(df_exoplant_eu) = c(
     "planet_name",
     "planet_status",
@@ -121,11 +125,79 @@ names(df_exoplant_eu) = c(
     "star_alternate_names"
 )
 
+### Missing analysis
 
+# Miss data:
+df_miss = missing_analysis(df_exoplant_eu)
 
+# Plot:
+my_palette = colorRampPalette(c("#111539", "#97A1D9"))
+plot_ly(
+    data = df_miss,
+    x = ~var_name,
+    y = ~non_na_total,
+    type = "bar",
+    text = ~non_na_pct,
+    texttemplate = "%{text} %",
+    textposition = "outside",
+    textfont = list(
+        size = 20,
+        color = my_palette(3)[2]
+    ),
+    color = ~var_name,
+    colors = my_palette(nrow(df_miss)),
+    hovertemplate = paste0("<b>Variable: %{x}<br>",
+                           "Frequency: %{y:,}<br>",
+                           "Proportion: ", df_miss$non_na_pct, " %<br>",
+                           "</b><extra></extra>")
+) %>%
+    layout(
+        title = list(
+            text = "Non-NAs per variable",
+            titlefont = list(
+                size = 20
+            ),
+            tickfont = list(
+                size = 18
+            )
+        ),
+        xaxis = list(
+            title = paste0("<b>Variable</b>"),
+            titlefont = list(
+                size = 20
+            ),
+            tickfont = list(
+                size = 18
+            ),
+            categoryorder = "array"
+        ),
+        yaxis = list(
+            title = "<b>Frequency</b>",
+            titlefont = list(
+                size = 20
+            ),
+            tickfont = list(
+                size = 18
+            )
+        ),
+        margin = list(
+            l = 5,
+            r = 70,
+            t = 50,
+            b = 70
+        ),
+        hoverlabel = list(
+            font = list(
+                size = 16
+            )
+        ),
+        showlegend = FALSE
+    )
 
-
-
+# Remove columns with more than 95% of NA:
+df_exoplant_eu = df_exoplant_eu[, -which(names(df_exoplant_eu) %in% 
+                                             (df_miss %>%
+                                                  dplyr::filter(non_na_pct < 5))$var_name)]
 
 
 
