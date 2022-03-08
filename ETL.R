@@ -194,14 +194,12 @@ plot_ly(
         showlegend = FALSE
     )
 
-# Remove columns with more than 95% of NA:
+# Remove the variables with more than 95% of NA:
 df_exoplant_eu = df_exoplant_eu[, -which(names(df_exoplant_eu) %in% 
                                              (df_miss %>%
                                                   dplyr::filter(non_na_pct < 5))$var_name)]
 
-
-
-
+# Save in RDS:
 saveRDS(object = df_exoplant_eu,
         file = paste0(path_data, "exoplanet_eu.rds"))
 
