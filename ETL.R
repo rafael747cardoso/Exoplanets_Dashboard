@@ -23,8 +23,8 @@ source(paste0(path_funcs, "missing_analysis.R"))
 # Read the data:
 df_exoplant_eu = read.csv(paste0(path_data, "exoplanet_eu_catalog.csv"))
 
-# Standardize the column names:
-df_names = list(
+# Column names:
+list_names_eu = list(
     "planet_name" = "Planet name",
     "planet_status" = "Planet status",
     "planet_mass_juptmass" = "Planet mass (Jupiter mass)",
@@ -125,14 +125,41 @@ df_names = list(
     "star_alternate_names" = "List of star alternate names"
 )
 
-names(df_exoplant_eu)
+names(df_exoplant_eu) = names(list_names_eu)
 
-### Missing analysis
+# Save in RDS:
+saveRDS(object = list_names_eu,
+        file = paste0(path_data, "list_names_eu.rds"))
+saveRDS(object = df_exoplant_eu,
+        file = paste0(path_data, "exoplanet_eu.rds"))
 
-# Miss data:
+
+############################################ NASA Exoplanet Archive ###################################################
+
+# Read the data:
+df_exoplant_nasa = read.csv(paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
+
+# Column names:
+list_names_nasa = list(
+    
+)
+
+names(df_exoplant_nasa) = names(list_names_nasa)
+
+# Save in RDS:
+saveRDS(object = list_names_nasa,
+        file = paste0(path_data, "list_names_nasa.rds"))
+saveRDS(object = df_exoplant_nasa,
+        file = paste0(path_data, "exoplanet_nasa.rds"))
+
+
+
+
+
+
+
+# Plot of miss data:
 df_miss = missing_analysis(df_exoplant_eu)
-
-# Plot:
 my_palette = colorRampPalette(c("#111539", "#97A1D9"))
 plot_ly(
     data = df_miss,
@@ -195,46 +222,6 @@ plot_ly(
         ),
         showlegend = FALSE
     )
-
-# Remove the variables with more than 95% of NA:
-df_exoplant_eu = df_exoplant_eu[, -which(names(df_exoplant_eu) %in% 
-                                             (df_miss %>%
-                                                  dplyr::filter(non_na_pct < 5))$var_name)]
-
-# Save in RDS:
-saveRDS(object = df_exoplant_eu,
-        file = paste0(path_data, "exoplanet_eu.rds"))
-
-
-############################################ NASA Exoplanet Archive ###################################################
-
-# Read the data:
-df_exoplant_nasa = read.csv(paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
-
-# Standardize the column names:
-names(df_exoplant_nasa) = c(
-    "",
-    "",
-)
-
-
-
-
-
-
-
-
-
-saveRDS(object = df_exoplant_nasa,
-        file = paste0(path_data, "exoplanet_nasa.rds"))
-
-
-
-
-
-
-
-
 
 
 
