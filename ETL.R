@@ -21,7 +21,7 @@ source(paste0(path_funcs, "missing_analysis.R"))
 ###################################### The Extrasolar Planets Encyclopaedia ###########################################
 
 # Read the data:
-df_exoplant_eu = read.csv(paste0(path_data, "exoplanet_eu_catalog.csv"))
+df_exoplant_eu = read.csv(paste0(path_data, "dataset_exoplanet_eu_catalog.csv"))
 
 # Column names:
 list_names_eu = list(
@@ -86,7 +86,7 @@ list_names_eu = list(
     "planet_geometric_albedo" = "Geometric albeto",
     "planet_geometric_albedo_error_min" = "Geometric albeto min error",
     "planet_geometric_albedo_error_max" = "Geometric albeto max error",
-    "planet_log_g" = "log(g)",
+    "log_g" = "log(g)",
     "publication_status" = "Publication status",
     "planet_detection_type" = "Detection method",
     "planet_mass_detection_type" = "Mass measurement method",
@@ -131,17 +131,108 @@ names(df_exoplant_eu) = names(list_names_eu)
 saveRDS(object = list_names_eu,
         file = paste0(path_data, "list_names_eu.rds"))
 saveRDS(object = df_exoplant_eu,
-        file = paste0(path_data, "exoplanet_eu.rds"))
+        file = paste0(path_data, "df_exoplanet_eu.rds"))
 
 
 ############################################ NASA Exoplanet Archive ###################################################
 
 # Read the data:
-df_exoplant_nasa = read.csv(paste0(path_data, "nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
+df_exoplant_nasa = read.csv(paste0(path_data, "dataset_nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
 
 # Column names:
 list_names_nasa = list(
-    
+    "planet_name" = "Planet Name",
+    "star_name" = "Host Star Name",
+    "default_flag" = "Default Parameter Set",
+    "star_num_stars" = "Number of Stars",
+    "star_num_planets" = "Number of Planets",
+    "discovery_method" = "Discovery Method",
+    "disc_year" = "Discovery Year",
+    "disc_facility" = "Discovery Facility",
+    "solution_type" = "Solution Type",
+    "planet_controversial_flag" = "Controversial Flag",
+    "planet_refname" = "Planetary Parameter Reference",
+    "planet_orb_period_days" = "Orbital Period (days)",
+    "planet_orb_period_days_max_error" = "Orbital Period Upper Error (days)",
+    "planet_orb_period_days_min_error" = "Orbital Period Lower Error (days)",
+    "planet_orb_period_lim" = "Orbital Period Limit Flag",
+    "planet_orb_semi_major_axis_max_au" = "Orbit Semi-Major Axis (AU))",
+    "planet_orb_semi_major_axis_max_au_max_error" = "Orbit Semi-Major Axis Upper Error (AU)",
+    "planet_orb_semi_major_axis_max_au_min_error" = "Orbit Semi-Major Axis Lower Error (AU)",
+    "planet_orb_semi_major_axis_lim" = "Orbit Semi-Major Axis Limit Flag",
+    "planet_radius_earth_radius" = "Planet Radius (Earth Radius)",
+    "planet_radius_earth_radius_max_error" = "Planet Radius Upper Error (Earth Radius)",
+    "planet_radius_earth_radius_min_error" = "Planet Radius Lower Error (Earth Radius)",
+    "planet_radius_earth_radius_lim" = "Planet Radius Limit Flag",
+    "planet_radius_jupiter_radius" = "Planet Radius (Jupiter Radius)",
+    "planet_radius_jupiter_radius_max_error" = "Planet Radius Upper Error (Jupiter Radius)",
+    "planet_radius_jupiter_radius_min_error" = "Planet Radius Lower Error (Jupiter Radius)",
+    "planet_radius_jupiter_radius_lim" = "Planet Radius Limit Flag",
+    "planet_mass_earth_mass" = "Planet Mass or Mass*sin(i) (Earth Mass)",
+    "planet_mass_earth_mass_max_error" = "Planet Mass or Mass*sin(i) (Earth Mass) Upper Error",
+    "planet_mass_earth_mass_min_error" = "Planet Mass or Mass*sin(i) (Earth Mass) Lower Error",
+    "planet_mass_earth_mass_lim" = "Planet Mass or Mass*sin(i) (Earth Mass) Limit Flag",
+    "planet_mass_jupiter_mass" = "Planet Mass or Mass*sin(i) (Jupiter Mass)",
+    "planet_mass_jupiter_mass_max_error" = "Planet Mass or Mass*sin(i) (Jupiter Mass) Upper Error",
+    "planet_mass_jupiter_mass_min_error" = "Planet Mass or Mass*sin(i) (Jupiter Mass) Lower Error",
+    "planet_mass_jupiter_mass_lim" = "Planet Mass or Mass*sin(i) (Jupiter Mass) Limit Flag",
+    "planet_mass_prov" = "Planet Mass or Mass*sin(i) Provenance",
+    "planet_orb_eccentricity" = "Eccentricity",
+    "planet_orb_eccentricity_max_error" = "Eccentricity Upper Error",
+    "planet_orb_eccentricity_min_error" = "Eccentricity Lower Error",
+    "planet_orb_eccentricity_lim" = "Eccentricity Limit Flag",
+    "planet_insolation_flux_earth_flux" = "Insolation Flux (Earth Flux)",
+    "planet_insolation_flux_earth_flux_max_error" = "Insolation Flux Upper Error (Earth Flux)",
+    "planet_insolation_flux_earth_flux_min_error" = "Insolation Flux Lower Error (Earth Flux)",
+    "planet_insolation_flux_earth_flux_lim" = "Insolation Flux Limit Flag",
+    "planet_equilibrium_temperature_k" = "Equilibrium Temperature (K)",
+    "planet_equilibrium_temperature_k_max_error" = "Equilibrium Temperature Upper Error (K)",
+    "planet_equilibrium_temperature_k_min_error" = "Equilibrium Temperature Lower Error (K)",
+    "planet_equilibrium_temperature_k_lim" = "Equilibrium Temperature Limit Flag",
+    "transit_timing_variations_flag" = "Data show Transit Timing Variations",
+    "star_refname" = "Stellar Parameter Reference",
+    "star_spectral_type" = "Spectral Type",
+    "star_effective_temperature_k" = "Stellar Effective Temperature (K)",
+    "star_effective_temperature_k_max_error" = "Stellar Effective Temperature Upper Error (K)",
+    "star_effective_temperature_k_min_error" = "Stellar Effective Temperature Lower Error (K)",
+    "star_effective_temperature_k_lim" = "Stellar Effective Temperature Limit Flag",
+    "star_radius_sun_radius" = "Stellar Radius (Solar Radius)",
+    "star_radius_sun_radius_max_error" = "Stellar Radius Upper Error (Solar Radius)",
+    "star_radius_sun_radius_min_error" = "Stellar Radius Lower Error (Solar Radius)",
+    "star_radius_sun_radius_lim" = "Stellar Radius Limit Flag",
+    "star_mass_sun_mass" = "Stellar Mass (Solar mass)",
+    "star_mass_sun_mass_max_error" = "Stellar Mass Upper Error (Solar mass)",
+    "star_mass_sun_mass_min_error" = "Stellar Mass Lower Error (Solar mass)",
+    "star_mass_sun_mass_lim" = "Stellar Mass Limit Flag",
+    "star_metallicity" = "Stellar Metallicity (dex)",
+    "star_metallicity_max_error" = "Stellar Metallicity Upper Error (dex)",
+    "star_metallicity_min_error" = "Stellar Metallicity Lower Error (dex)",
+    "star_metallicity_lim" = "Stellar Metallicity Limit Flag",
+    "star_metallicity_ratio" = "Stellar Metallicity Ratio",
+    "star_log_g" = "Stellar Surface Gravity (log10(cm/s**2))",
+    "star_log_g_max_error" = "Stellar Surface Gravity Upper Error (log10(cm/s**2))",
+    "star_log_g_min_error" = "Stellar Surface Gravity Lower Error (log10(cm/s**2))",
+    "star_log_g_lim" = "Stellar Surface Gravity Limit Flag",
+    "system_refname" = "System Parameter Reference",
+    "star_ra_j2000_hh_mm_ss" = "RA (sexagesimal)",
+    "star_ra_j2000_deg" = "RA (deg)",
+    "star_dec_j2000_hh_mm_ss" = "Dec (sexagesimal)",
+    "star_dec_j2000_deg" = "Dec (deg)",
+    "star_distance_pc" = "Distance (pc)",
+    "star_distance_pc_max_error" = "Distance (pc) Upper Error",
+    "star_distance_pc_min_error" = "Distance (pc) Lower Error",
+    "star_v_mag" = "V (Johnson) Magnitude",
+    "star_v_mag_max_error" = "V (Johnson) Magnitude Upper Error",
+    "star_v_mag_min_error" = "V (Johnson) Magnitude Lower Error",
+    "star_k_mag" = "Ks (2MASS) Magnitude",
+    "star_k_mag_max_error" = "Ks (2MASS) Magnitude Upper Error",
+    "star_k_mag_min_error" = "Ks (2MASS) Magnitude Lower Error",
+    "star_gaia_mag" = "Gaia Magnitude",
+    "star_gaia_mag_max_error" = "Gaia Magnitude Upper Error",
+    "star_gaia_mag_min_error" = "Gaia Magnitude Lower Error",
+    "row_update" = "Date of Last Update",
+    "planet_publication_date" = "Planetary Parameter Reference Publication Date",
+    "release_date" = "Release Date"    
 )
 
 names(df_exoplant_nasa) = names(list_names_nasa)
@@ -150,7 +241,7 @@ names(df_exoplant_nasa) = names(list_names_nasa)
 saveRDS(object = list_names_nasa,
         file = paste0(path_data, "list_names_nasa.rds"))
 saveRDS(object = df_exoplant_nasa,
-        file = paste0(path_data, "exoplanet_nasa.rds"))
+        file = paste0(path_data, "df_exoplanet_nasa.rds"))
 
 
 
