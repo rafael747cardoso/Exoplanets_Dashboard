@@ -163,6 +163,12 @@ for(i in 1:length(all_molecules)){
     names(df_exoplant_eu)[num_cols + i] = paste0("planet_has_molecule_", all_molecules_nice_names[i])
 }
 
+# Update the names list:
+for(i in 1:length(all_molecules)){
+    list_names_eu[[num_cols + i]] = paste0("The planet has the molecule ", all_molecules[i])
+    names(list_names_eu)[num_cols + i] = names(df_exoplant_eu)[num_cols + i]
+}
+
 # Save in RDS:
 saveRDS(object = list_names_eu,
         file = paste0(path_data, "list_names_eu.rds"))
@@ -272,6 +278,11 @@ list_names_nasa = list(
 )
 
 names(df_exoplant_nasa) = names(list_names_nasa)
+
+# Change the empty strings for NA:
+df_exoplant_nasa = df_exoplant_nasa %>%
+                       dplyr::mutate_if(is.character, empty_to_na)
+
 
 # Save in RDS:
 saveRDS(object = list_names_nasa,
