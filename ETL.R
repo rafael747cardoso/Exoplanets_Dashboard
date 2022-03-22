@@ -14,6 +14,7 @@ require(package = "plotly", lib.loc = path_lib)
 require(package = "stringr", lib.loc = path_lib)
 require(package = "Amelia", lib.loc = path_lib)
 require(package = "RColorBrewer", lib.loc = path_lib)
+require(package = "stringr", lib.loc = path_lib)
 
 # Functions:
 source(paste0(path_funcs, "missing_analysis.R"))
@@ -134,10 +135,33 @@ names(df_exoplant_eu) = names(list_names_eu)
 df_exoplant_eu = df_exoplant_eu %>%
                      dplyr::mutate_if(is.character, empty_to_na)
 
-# Make a new variable for molecules:
+# List all the detected molecules:
+molecules = (df_exoplant_eu %>%
+                dplyr::filter(!is.na(planet_detected_molecules)))$planet_detected_molecules %>%
+                unique()
+all_molecules = c()
+for(i in 1:length(molecules)){
+    molecules_i = molecules[i]
+    molecules_i = str_split(string = molecules_i,
+                            pattern = ", ")[[1]]
+    all_molecules = c(all_molecules,
+                      molecules_i)
+}
+all_molecules = unique(all_molecules) %>%
+                    sort()
+all_molecules_nice_names = str_replace_all(all_molecules,
+                                           c(" " = "_",
+                                             "\\+" = "_plus"))
 
-
-
+# Make dummy variables for the molecules:
+num_cols = ncol(df_exoplant_eu)
+for(i in 1:length(all_molecules)){
+    df_exoplant_eu[, num_cols + i] = ifelse(grepl(x = df_exoplant_eu$planet_detected_molecules,
+                                                  pattern = all_molecules[i]),
+                                            1,
+                                            0)
+    names(df_exoplant_eu)[num_cols + i] = paste0("planet_has_molecule_", all_molecules_nice_names[i])
+}
 
 # Save in RDS:
 saveRDS(object = list_names_eu,
