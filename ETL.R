@@ -17,6 +17,9 @@ require(package = "RColorBrewer", lib.loc = path_lib)
 
 # Functions:
 source(paste0(path_funcs, "missing_analysis.R"))
+source(paste0(path_funcs, "empty_to_na.R"))
+
+
 
 ###################################### The Extrasolar Planets Encyclopaedia ###########################################
 
@@ -126,6 +129,15 @@ list_names_eu = list(
 )
 
 names(df_exoplant_eu) = names(list_names_eu)
+
+# Change the empty strings for NA:
+df_exoplant_eu = df_exoplant_eu %>%
+                     dplyr::mutate_if(is.character, empty_to_na)
+
+# Make a new variable for molecules:
+
+
+
 
 # Save in RDS:
 saveRDS(object = list_names_eu,
