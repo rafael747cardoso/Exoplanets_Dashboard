@@ -54,29 +54,17 @@ color3 = "#0B297B"
 ##################################################### Data ############################################################
 
 # The Extrasolar Planets Encyclopaedia:
-df_exoplant_eu = readRDS(paste0(path_data, "exoplanet_eu.rds"))
+df_exoplant_eu = readRDS(paste0(path_data, "df_exoplanet_eu.rds"))
 
 # NASA Exoplanet Archive:
-df_exoplant_nasa = readRDS(paste0(path_data, "exoplanet_nasa.rds"))
+df_exoplant_nasa = readRDS(paste0(path_data, "df_exoplanet_nasa.rds"))
+
 
 
 ##################################################### Backend #########################################################
 
 server = function(input, output, session){
 
-    output$plot1 = renderPlotly(
-        plot_ly(data = df_exoplant_eu,
-                x = ~star_distance,
-                y= ~mass)
-    )
-    
-    output$plot2 = renderPlotly(
-        plot_ly(data = df_exoplant_eu,
-                x = ~orbital_period,
-                y= ~semi_major_axis)
-    )
-    
-    
     
     
     
@@ -132,17 +120,88 @@ ui = fluidPage(
                     "Extrasolar Planets Encyclopaedia"
                 )
             ),
-            fluidRow(
-                column(
-                    width = 12,
+            navbarPage(
+                id = "navbar-exoplanet-eu",
+                title = "",
+                position = "static-top",
+                fluid = TRUE,
+                
+                ### Plot 1: Histogram
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Histogram"
+                    ),
+                    # Choose the x variable, the bins and the range:
+                    fluidRow(
+                        
+                        
+                        
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
-                    plotlyOutput("plot1")
+                    
+                ),
+                
+                ### Plot 2: Bubble
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Bubble"
+                    ),
+                    # Choose x, y, color and size variables:
+                    fluidRow(
+                        
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
                     
+                ),
+                
+                ### Plot 3: Correlation matrix
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Correlation matrix"
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
+                    
+                    
+                ),
+                
+                ### Table
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Table"
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
                     
                 )
+                
+                
+                
             )
+            
+            
+            
         ),
 
         ######################################## NASA Exoplanet Archive ###############################################
@@ -160,17 +219,105 @@ ui = fluidPage(
                     "NASA Exoplanet Archive"
                 )
             ),
-            fluidRow(
-                column(
-                    width = 12,
+            navbarPage(
+                id = "navbar-exoplanet-nasa",
+                title = "",
+                position = "static-top",
+                fluid = TRUE,
+                
+                ### Plot 1: Histogram
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Histogram"
+                    ),
+                    # Choose the x variable, the bins and the range:
+                    fluidRow(
+                        
+                        
+                        
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
-                    plotlyOutput("plot2")
+                    
+                ),
+                
+                ### Plot 2: Bubble
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Bubble"
+                    ),
+                    # Choose x, y, color and size variables:
+                    fluidRow(
+                        
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
                     
+                ),
+
+                ### Plot 3: Correlation matrix
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Correlation matrix"
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
+                    
+                    
+                ),
+                
+                ### Plot 4: 2D Histogram
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "2D Histogram"
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
+                    
+                    
+                ),
+                
+                ### Table
+                
+                tabPanel(
+                    div(
+                        class = "sub-tab-name",
+                        "Table"
+                    ),
+                    # Plot:
+                    fluidRow(
+                        
+                    )
                     
                     
                 )
+                
+                
+                
             )
+            
+            
+            
+            
+            
         )
 
 

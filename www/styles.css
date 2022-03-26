@@ -25,6 +25,8 @@ body {
 
 /****************************************************** Navbars ******************************************************/
 
+/*** Main navbar ***/
+
 .logo_bar {
     padding-left: 1vw;
     padding-right: 1vw;
@@ -78,8 +80,49 @@ body {
 	background-color: transparent;
 }
 
+/*** Sub navbars ***/
 
+#navbar-exoplanet-eu, #navbar-exoplanet-nasa {
+    float: left !important;
+}
 
+.container-fluid > #navbar-exoplanet-eu,
+.container-fluid > #navbar-exoplanet-nasa{
+	border-bottom: 2px solid #afe4f3;
+	width: 100%;
+}
+
+#navbar-exoplanet-eu.nav.navbar-nav.shiny-tab-input.shiny-bound-input li,
+#navbar-exoplanet-nasa.nav.navbar-nav.shiny-tab-input.shiny-bound-input li{
+    border-top: 1px solid #def3f9;
+    border-left: 1px solid #def3f9;
+    border-right: 1px solid #def3f9;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 0px;
+    bottom: -1px;
+}
+
+#navbar-exoplanet-eu.nav.navbar-nav.shiny-tab-input.shiny-bound-input > .active > a,
+#navbar-exoplanet-nasa.nav.navbar-nav.shiny-tab-input.shiny-bound-input > .active > a{
+    border-top: 1px solid #def3f9;
+    border-left: 1px solid #def3f9;
+    border-right: 1px solid #def3f9;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    background-color: #def3f9;
+}
+
+#navbar-exoplanet-eu.nav.navbar-nav.shiny-tab-input.shiny-bound-input > .active > a .sub-tab-name,
+#navbar-exoplanet-nasa.nav.navbar-nav.shiny-tab-input.shiny-bound-input > .active > a .sub-tab-name{
+    color: #003e53;
+}
 
 .sub-tab-name {
 	color: white;
