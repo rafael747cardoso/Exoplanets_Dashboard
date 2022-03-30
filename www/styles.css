@@ -146,9 +146,9 @@ body {
 
 .card-header {
     color: white;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: left;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
 }
 
 .card-icon {
@@ -205,6 +205,18 @@ body {
 	color: #113C33;
 	font-weight: 600;
 }
+
+.card-no-border {
+	background: linear-gradient(90deg, #282B33, #384875,  #0B297B);
+    display: block;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+
+
 
 
 

@@ -1,7 +1,9 @@
 
 ### UI of the Extrasolar Planets Encyclopaedia tab
 
-ui_tab_exoplanet_eu = function(){
+ui_tab_exoplanet_eu = function(
+    opts_exoplanet_eu_num_var
+){
     
     tabPanel(
         div(
@@ -22,28 +24,119 @@ ui_tab_exoplanet_eu = function(){
             position = "static-top",
             fluid = TRUE,
             
-            ### Plot 1: Histogram
+            ### Tab 1: Histogram
             
             tabPanel(
                 div(
                     class = "sub-tab-name",
                     "Histogram"
                 ),
-                # Choose the x variable, the bins and the range:
+                
                 fluidRow(
-                    
-                    
-                    
-                ),
-                # Plot:
-                fluidRow(
-                    
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Choose the x variable, the bins and the range:
+                                fluidRow(
+                                    # Variable:
+                                    column(
+                                        width = 4,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_histogram_xvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_num_var,
+                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    # Bins:
+                                    column(
+                                        width = 4,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Bins"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                sliderInput(
+                                                    inputId = "exoplanet_eu_histogram_bins",
+                                                    label = "",
+                                                    min = 10,
+                                                    max = 1000,
+                                                    step = 50,
+                                                    value = 100
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    # Range:
+                                    column(
+                                        width = 4,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Range"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                sliderInput(
+                                                    inputId = "exoplanet_eu_histogram_range",
+                                                    label = "",
+                                                    min = 1,
+                                                    max = 98,
+                                                    step = 10,
+                                                    value = c(10, 20)
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                # Plot:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                plotlyOutput(
+                                                    outputId = "exoplanet_eu_histogram_plot",
+                                                    height = "500px"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                    
+                                )
+                                
+                            )
+                        )
+                    )
                 )
-                
-                
             ),
             
-            ### Plot 2: Bubble
+            ### Tab 2: Bubble
             
             tabPanel(
                 div(
@@ -62,7 +155,7 @@ ui_tab_exoplanet_eu = function(){
                 
             ),
             
-            ### Plot 3: Correlation matrix
+            ### Tab 3: Correlation matrix
             
             tabPanel(
                 div(
@@ -77,7 +170,7 @@ ui_tab_exoplanet_eu = function(){
                 
             ),
             
-            ### Table
+            ### Tab 4: Table
             
             tabPanel(
                 div(
