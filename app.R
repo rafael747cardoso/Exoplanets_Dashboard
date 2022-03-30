@@ -172,17 +172,12 @@ ui = fluidPage(
     
     # Theme:
     includeCSS(paste0(path_style, "styles.css")),
-    shinyWidgets::setBackgroundColor(
-        color = c(color1, color2),
-        gradient = "linear",
-        direction = "right"
-    ),
 
     # Head:
     tags$head(
         tags$link(rel = "shortcut icon",
                   type = "image/png",
-                  href = "logo_exoplanets.png"),
+                  href = "logo_exoplanets_browser_tab.png"),
         tags$title("Exoplanets")
     ),
 
@@ -193,7 +188,7 @@ ui = fluidPage(
             img(
                 src = "logo_exoplanets.png",
                 height = "95px",
-                width = "350px",
+                width = "330px",
                 class = "logo_bar"
             )
         ),
