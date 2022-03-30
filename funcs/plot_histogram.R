@@ -3,6 +3,28 @@
 
 plot_histogram = function(df, x_var, x_var_name, nbins){
     
+    x_mean = round(mean(df[, x_var], na.rm = TRUE), digits = 2)
+    x_median = round(median(df[, x_var], na.rm = TRUE), digits = 2)
+    x_std = round(sd(df[, x_var], na.rm = TRUE), digits = 2)
+    x_skewness = round(skewness(df[, x_var], na.rm = TRUE), digits = 2)
+    
+    title_stats = paste0("<b style = 'color: #c70039'>Mean: ", x_mean, "</b>       ",
+                         "<b style = 'color: #ffc300'>Median: ", x_median, "</b>       ",
+                         "<b style = 'color: #C1F474'>Standard deviation: ", x_std, "</b>       ",
+                         "<b style = 'color: #74F1F4'>Skewness: ", x_skewness, "</b>       ")
+    vline = function(x = 0, 
+                     color) {
+        list(
+          type = "line", 
+          y0 = 0, 
+          y1 = 1, 
+          yref = "paper",
+          x0 = x, 
+          x1 = x, 
+          line = list(color = color)
+        )
+    }
+
     plot_ly(
         data = df,
         x = ~eval(parse(text = x_var)),
@@ -17,6 +39,16 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
                                x_var_name, ": %{x:,}</b><extra></extra>")
     ) %>%
     layout(
+        shapes = list(
+            vline(
+                x = x_mean,
+                color = "#c70039"
+            ),
+            vline(
+                x = x_median,
+                color = "#ffc300"
+            )
+        ),
         xaxis = list(
             title = paste0("<b>", x_var_name, "</b>"),
             titlefont = list(
@@ -40,10 +72,11 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
             color = "white",
             gridcolor = "rgba(255, 255, 255, 0.3)"
         ),
+        title = title_stats,
         margin = list(
             l = 10,
             r = 10,
-            t = 10,
+            t = 60,
             b = 10
         ),
         hoverlabel = list(

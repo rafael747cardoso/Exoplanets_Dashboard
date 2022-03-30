@@ -21,7 +21,8 @@ packages = c(
     "dplyr",
     "plotly",
     "DT",
-    "stringr"
+    "stringr",
+    "moments"
 )
 if(app_dev == TRUE){
     for(pckg in packages){
@@ -76,8 +77,8 @@ opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
 # test:
 # input = list()
 # input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
-
-
+# input$exoplanet_eu_histogram_bins = 100
+# input$exoplanet_eu_histogram_range = c(0, 135.3)
 
 ##################################################### Backend #########################################################
 
@@ -126,13 +127,11 @@ server = function(input, output, session){
             # Plot:
             output$exoplanet_eu_histogram_plot = renderPlotly({
                 if(!is.null(input$exoplanet_eu_histogram_range)){
-                    x_var_name = input$exoplanet_eu_histogram_xvar
-                    x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
-                                names()
                     x_min = input$exoplanet_eu_histogram_range[1]
                     x_max = input$exoplanet_eu_histogram_range[2]
-                    df_plot = df_exoplant_eu[(df_exoplant_eu[x_var] >= x_min &
-                                              df_exoplant_eu[x_var] <= x_max), ]
+                    df_plot = df_exoplant_eu %>%
+                                  dplyr::filter(eval(parse(text = x_var)) >= x_min &
+                                                eval(parse(text = x_var)) <= x_max)
                     plot_histogram(df = df_plot,
                                    x_var = x_var,
                                    x_var_name = x_var_name,
