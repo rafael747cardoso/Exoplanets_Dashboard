@@ -41,7 +41,7 @@ source(paste0(path_funcs, "ui_tab_exoplanet_eu.R"))
 source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
 
 # Global options:
-options(scipen = 999)
+# options(scipen = 999)
 options(spinner.color = "#0dc5c1")
 options(spinner.type = 4)
 sidebar_width = 250
@@ -96,9 +96,21 @@ server = function(input, output, session){
                         names()
             
             # Dinamic range:
-            xmin = min(df_exoplant_eu[x_var], na.rm = TRUE)
-            xmax = max(df_exoplant_eu[x_var], na.rm = TRUE)
-            xstep = abs(xmax - xmin)/100
+            xvals = df_exoplant_eu[which(!is.na(df_exoplant_eu[x_var])), x_var]
+            decdiff = xvals - trunc(xvals)
+            decdiff_non_zero = decdiff[decdiff > 0]
+            if(length(decdiff_non_zero) == 0){
+                xmin = min(xvals)
+                xmax = max(xvals)
+                xstep = abs(xmax - xmin)/100
+            } else{
+                xmin = round(min(xvals),
+                             digits = 2)
+                xmax = round(max(xvals),
+                             digits = 2)
+                xstep = round(abs(xmax - xmin)/100,
+                              digits = 2)
+            }
             output$ui_exoplanet_eu_histogram_range = renderUI({
                 sliderInput(
                     inputId = "exoplanet_eu_histogram_range",
@@ -106,20 +118,24 @@ server = function(input, output, session){
                     min = xmin,
                     max = xmax,
                     step = xstep,
-                    value = c(xmin + 5*xstep, xmax - 5*xstep),
+                    value = c(xmin, xmax),
                     width = "100%"
                 )
             })
             
+            # Plot:
             output$exoplanet_eu_histogram_plot = renderPlotly({
                 if(!is.null(input$exoplanet_eu_histogram_range)){
                     
                     x_var_name = input$exoplanet_eu_histogram_xvar
                     x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
                                 names()
+                    x_min = input$exoplanet_eu_histogram_range[1]
+                    x_max = input$exoplanet_eu_histogram_range[2]
                     
                     plot_ly(
-                        data = df_exoplant_eu,
+                        data = df_exoplant_eu[(df_exoplant_eu[x_var] >= x_min &
+                                               df_exoplant_eu[x_var] <= x_max), ],
                         x = ~eval(parse(text = x_var)),
                         type = "histogram",
                         histfunc = "count",
