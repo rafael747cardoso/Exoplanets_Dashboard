@@ -39,6 +39,7 @@ if(app_dev == TRUE){
 # Functions:
 source(paste0(path_funcs, "ui_tab_exoplanet_eu.R"))
 source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
+source(paste0(path_funcs, "plot_histogram.R"))
 
 # Global options:
 # options(scipen = 999)
@@ -89,7 +90,6 @@ server = function(input, output, session){
     observe({
         if(!is.null(input$exoplanet_eu_histogram_xvar) &
            !is.null(input$exoplanet_eu_histogram_bins)){
-            
             # Chosen variable:
             x_var_name = input$exoplanet_eu_histogram_xvar
             x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
@@ -126,75 +126,25 @@ server = function(input, output, session){
             # Plot:
             output$exoplanet_eu_histogram_plot = renderPlotly({
                 if(!is.null(input$exoplanet_eu_histogram_range)){
-                    
                     x_var_name = input$exoplanet_eu_histogram_xvar
                     x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
                                 names()
                     x_min = input$exoplanet_eu_histogram_range[1]
                     x_max = input$exoplanet_eu_histogram_range[2]
-                    
-                    plot_ly(
-                        data = df_exoplant_eu[(df_exoplant_eu[x_var] >= x_min &
-                                               df_exoplant_eu[x_var] <= x_max), ],
-                        x = ~eval(parse(text = x_var)),
-                        type = "histogram",
-                        histfunc = "count",
-                        histnorm = "",
-                        nbinsx = input$exoplanet_eu_histogram_bins,
-                        color = "#813DDA",
-                        colors = "#813DDA",
-                        opacity = 0.9,
-                        hovertemplate = paste0("<b>Counts: %{y:,}<br>",
-                                               x_var_name, ": %{x:,}</b><extra></extra>")
-                    ) %>%
-                    layout(
-                        xaxis = list(
-                            title = paste0("<b>", x_var_name, "</b>"),
-                            titlefont = list(
-                                size = 20
-                            ),
-                            tickfont = list(
-                                size = 18
-                            ),
-                            categoryorder = "array",
-                            color = "white",
-                            gridcolor = "rgba(255, 255, 255, 0.3)"
-                        ),
-                        yaxis = list(
-                            title = paste0("<b>Counts</b>"),
-                            titlefont = list(
-                                size = 20
-                            ),
-                            tickfont = list(
-                                size = 18
-                            ),
-                            color = "white",
-                            gridcolor = "rgba(255, 255, 255, 0.3)"
-                        ),
-                        margin = list(
-                            l = 10,
-                            r = 10,
-                            t = 10,
-                            b = 10
-                        ),
-                        hoverlabel = list(
-                            font = list(
-                                size = 18
-                            )
-                        ),
-                        plot_bgcolor = "rgba(0, 0, 0, 0)",
-                        paper_bgcolor = "rgba(0, 0, 0, 0)",
-                        showlegend = FALSE
-                    )
-                    
-                    
+                    df_plot = df_exoplant_eu[(df_exoplant_eu[x_var] >= x_min &
+                                              df_exoplant_eu[x_var] <= x_max), ]
+                    plot_histogram(df = df_plot,
+                                   x_var = x_var,
+                                   x_var_name = x_var_name,
+                                   nbins = input$exoplanet_eu_histogram_bins)
                 }
             })
             
         }
     })
     
-
+    
+    
     
     
     
