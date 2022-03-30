@@ -86,71 +86,99 @@ server = function(input, output, session){
     
     ### Histrogram
     
-    output$exoplanet_eu_histogram_plot = renderPlotly({
+    observe({
         if(!is.null(input$exoplanet_eu_histogram_xvar) &
-           !is.null(input$exoplanet_eu_histogram_bins) &
-           !is.null(input$exoplanet_eu_histogram_range)){
+           !is.null(input$exoplanet_eu_histogram_bins)){
             
+            # Chosen variable:
             x_var_name = input$exoplanet_eu_histogram_xvar
             x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
                         names()
-
-            plot_ly(
-                data = df_exoplant_eu,
-                x = ~eval(parse(text = x_var)),
-                type = "histogram",
-                histfunc = "count",
-                histnorm = "",
-                nbinsx = 100,
-                color = "#813DDA",
-                colors = "#813DDA",
-                opacity = 0.9,
-                hovertemplate = paste0("<b>Counts: %{y:,}<br>",
-                                       x_var_name, ": %{x:,}</b><extra></extra>")
-            ) %>%
-            layout(
-                xaxis = list(
-                    title = paste0("<b>", x_var_name, "</b>"),
-                    titlefont = list(
-                        size = 20
-                    ),
-                    tickfont = list(
-                        size = 18
-                    ),
-                    categoryorder = "array",
-                    color = "white",
-                    gridcolor = "rgba(255, 255, 255, 0.3)"
-                ),
-                yaxis = list(
-                    title = paste0("<b>Counts</b>"),
-                    titlefont = list(
-                        size = 20
-                    ),
-                    tickfont = list(
-                        size = 18
-                    ),
-                    color = "white",
-                    gridcolor = "rgba(255, 255, 255, 0.3)"
-                ),
-                margin = list(
-                    l = 10,
-                    r = 10,
-                    t = 10,
-                    b = 10
-                ),
-                hoverlabel = list(
-                    font = list(
-                        size = 18
-                    )
-                ),
-                plot_bgcolor = "rgba(0, 0, 0, 0)",
-                paper_bgcolor = "rgba(0, 0, 0, 0)",
-                showlegend = FALSE
-            )
             
+            # Dinamic range:
+            xmin = min(df_exoplant_eu[x_var], na.rm = TRUE)
+            xmax = max(df_exoplant_eu[x_var], na.rm = TRUE)
+            xstep = abs(xmax - xmin)/100
+            output$ui_exoplanet_eu_histogram_range = renderUI({
+                sliderInput(
+                    inputId = "exoplanet_eu_histogram_range",
+                    label = "",
+                    min = xmin,
+                    max = xmax,
+                    step = xstep,
+                    value = c(xmin + 5*xstep, xmax - 5*xstep),
+                    width = "100%"
+                )
+            })
+            
+            output$exoplanet_eu_histogram_plot = renderPlotly({
+                if(!is.null(input$exoplanet_eu_histogram_range)){
+                    
+                    x_var_name = input$exoplanet_eu_histogram_xvar
+                    x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
+                                names()
+                    
+                    plot_ly(
+                        data = df_exoplant_eu,
+                        x = ~eval(parse(text = x_var)),
+                        type = "histogram",
+                        histfunc = "count",
+                        histnorm = "",
+                        nbinsx = input$exoplanet_eu_histogram_bins,
+                        color = "#813DDA",
+                        colors = "#813DDA",
+                        opacity = 0.9,
+                        hovertemplate = paste0("<b>Counts: %{y:,}<br>",
+                                               x_var_name, ": %{x:,}</b><extra></extra>")
+                    ) %>%
+                    layout(
+                        xaxis = list(
+                            title = paste0("<b>", x_var_name, "</b>"),
+                            titlefont = list(
+                                size = 20
+                            ),
+                            tickfont = list(
+                                size = 18
+                            ),
+                            categoryorder = "array",
+                            color = "white",
+                            gridcolor = "rgba(255, 255, 255, 0.3)"
+                        ),
+                        yaxis = list(
+                            title = paste0("<b>Counts</b>"),
+                            titlefont = list(
+                                size = 20
+                            ),
+                            tickfont = list(
+                                size = 18
+                            ),
+                            color = "white",
+                            gridcolor = "rgba(255, 255, 255, 0.3)"
+                        ),
+                        margin = list(
+                            l = 10,
+                            r = 10,
+                            t = 10,
+                            b = 10
+                        ),
+                        hoverlabel = list(
+                            font = list(
+                                size = 18
+                            )
+                        ),
+                        plot_bgcolor = "rgba(0, 0, 0, 0)",
+                        paper_bgcolor = "rgba(0, 0, 0, 0)",
+                        showlegend = FALSE
+                    )
+                    
+                    
+                }
+            })
             
         }
     })
+    
+
     
     
     

@@ -135,6 +135,9 @@ names(df_exoplant_eu) = names(list_names_eu)
 df_exoplant_eu = df_exoplant_eu %>%
                      dplyr::mutate_if(is.character, empty_to_na)
 
+# Change the infinite values for NA:
+df_exoplant_eu[df_exoplant_eu == Inf] = NA
+
 # List all the detected molecules:
 molecules = (df_exoplant_eu %>%
                 dplyr::filter(!is.na(planet_detected_molecules)))$planet_detected_molecules %>%
@@ -282,6 +285,9 @@ names(df_exoplant_nasa) = names(list_names_nasa)
 # Change the empty strings for NA:
 df_exoplant_nasa = df_exoplant_nasa %>%
                        dplyr::mutate_if(is.character, empty_to_na)
+
+# Change the infinite values for NA:
+df_exoplant_eu[df_exoplant_eu == Inf] = NA
 
 
 # Save in RDS:

@@ -80,7 +80,8 @@ ui_tab_exoplanet_eu = function(
                                                     min = 10,
                                                     max = 1000,
                                                     step = 50,
-                                                    value = 100
+                                                    value = 100,
+                                                    width = "100%"
                                                 )
                                             )
                                         )
@@ -96,14 +97,16 @@ ui_tab_exoplanet_eu = function(
                                             ),
                                             div(
                                                 class = "card-body",
-                                                sliderInput(
-                                                    inputId = "exoplanet_eu_histogram_range",
-                                                    label = "",
-                                                    min = 1,
-                                                    max = 98,
-                                                    step = 10,
-                                                    value = c(10, 20)
-                                                )
+                                                uiOutput(outputId = "ui_exoplanet_eu_histogram_range")
+                                                # sliderInput(
+                                                #     inputId = "exoplanet_eu_histogram_range",
+                                                #     label = "",
+                                                #     min = 1,
+                                                #     max = 98,
+                                                #     step = 10,
+                                                #     value = c(10, 20),
+                                                #     width = "100%"
+                                                # )
                                             )
                                         )
                                     )
