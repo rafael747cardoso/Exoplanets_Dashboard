@@ -3,11 +3,11 @@
 
 plot_histogram = function(df, x_var, x_var_name, nbins){
     
+    # Statistics:
     x_mean = round(mean(df[, x_var], na.rm = TRUE), digits = 2)
     x_median = round(median(df[, x_var], na.rm = TRUE), digits = 2)
     x_std = round(sd(df[, x_var], na.rm = TRUE), digits = 2)
     x_skewness = round(skewness(df[, x_var], na.rm = TRUE), digits = 2)
-    
     title_stats = paste0("<b style = 'color: #c70039'>Mean: ", x_mean, "</b>       ",
                          "<b style = 'color: #ffc300'>Median: ", x_median, "</b>       ",
                          "<b style = 'color: #C1F474'>Standard deviation: ", x_std, "</b>       ",
@@ -24,8 +24,14 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
           line = list(color = color)
         )
     }
-
-    plot_ly(
+    
+    # Density:
+    dens = density(x = df[, x_var],
+                   n = 2**13)
+    
+    # Plot:
+    plot_ly() %>%
+    add_trace(
         data = df,
         x = ~eval(parse(text = x_var)),
         type = "histogram",
@@ -37,6 +43,17 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
         opacity = 0.9,
         hovertemplate = paste0("<b>Counts: %{y:,}<br>",
                                x_var_name, ": %{x:,}</b><extra></extra>")
+    ) %>%
+    add_trace(
+        x = dens$x,
+        y = dens$y,
+        type = "scatter",
+        mode = "lines",
+        line = list(
+            width = 2,
+            color = "#7BFD6E"
+        ),
+        yaxis = "y2"
     ) %>%
     layout(
         shapes = list(
@@ -59,7 +76,7 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
             ),
             categoryorder = "array",
             color = "white",
-            gridcolor = "rgba(255, 255, 255, 0.3)"
+            gridcolor = "rgba(255, 255, 255, 0.15)"
         ),
         yaxis = list(
             title = paste0("<b>Counts</b>"),
@@ -70,12 +87,26 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
                 size = 18
             ),
             color = "white",
-            gridcolor = "rgba(255, 255, 255, 0.3)"
+            gridcolor = "rgba(255, 255, 255, 0.15)"
+        ),
+        yaxis2 = list(
+            title = paste0("<b>Density</b>"),
+            range = c(0, 1.1*max(dens$y)),
+            overlaying = "y",
+            side = "right",
+            titlefont = list(
+                size = 20
+            ),
+            tickfont = list(
+                size = 18
+            ),
+            color = "white",
+            gridcolor = "rgba(0, 0, 0, 0)"
         ),
         title = title_stats,
         margin = list(
             l = 10,
-            r = 10,
+            r = 80,
             t = 60,
             b = 10
         ),

@@ -142,6 +142,8 @@ server = function(input, output, session){
         }
     })
     
+    ### Bubble plot
+    
     
     
     

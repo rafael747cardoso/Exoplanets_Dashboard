@@ -31,7 +31,6 @@ ui_tab_exoplanet_eu = function(
                     class = "sub-tab-name",
                     "Histogram"
                 ),
-                
                 fluidRow(
                     column(
                         width = 12,
@@ -98,15 +97,6 @@ ui_tab_exoplanet_eu = function(
                                             div(
                                                 class = "card-body",
                                                 uiOutput(outputId = "ui_exoplanet_eu_histogram_range")
-                                                # sliderInput(
-                                                #     inputId = "exoplanet_eu_histogram_range",
-                                                #     label = "",
-                                                #     min = 1,
-                                                #     max = 98,
-                                                #     step = 10,
-                                                #     value = c(10, 20),
-                                                #     width = "100%"
-                                                # )
                                             )
                                         )
                                     )
@@ -130,9 +120,7 @@ ui_tab_exoplanet_eu = function(
                                             )
                                         )
                                     )
-                                    
                                 )
-                                
                             )
                         )
                     )
