@@ -43,6 +43,8 @@ source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
 source(paste0(path_funcs, "plot_histogram.R"))
 source(paste0(path_funcs, "plot_2d_density.R"))
 source(paste0(path_funcs, "plot_scatter.R"))
+source(paste0(path_funcs, "plot_bubble.R"))
+source(paste0(path_funcs, "has_few_levels.R"))
 
 # Global options:
 options(spinner.color = "#0dc5c1")
@@ -65,12 +67,22 @@ list_names_eu = readRDS(paste0(path_data, "list_names_eu.rds"))
 df_exoplant_nasa = readRDS(paste0(path_data, "df_exoplanet_nasa.rds"))
 list_names_nasa = readRDS(paste0(path_data, "list_names_nasa.rds"))
 
-# Options for the selects:
+### Options for the selects
+
+# Numeric variables:
 num_vars_eu = df_exoplant_eu %>%
                   dplyr::select_if(is.numeric) %>%
                   names()
 list_opts_exoplanet_eu_num_var = list_names_eu[num_vars_eu]
 opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
+
+# Categoric variables with few levels and numeric variables:
+nice_char_var_eu = df_exoplant_eu %>%
+                       dplyr::select_if(is.character) %>%
+                       dplyr::select_if(has_few_levels) %>%
+                       names()
+list_opts_exoplanet_eu_num_nicechar_var = list_names_eu[c(num_vars_eu, nice_char_var_eu)]
+opts_exoplanet_eu_color_var = unlist(unname(list_opts_exoplanet_eu_num_nicechar_var))
 
 
 
@@ -85,9 +97,11 @@ opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
 # input$exoplanet_eu_2d_density_ybins = 100
 # input$exoplanet_eu_scatter_xvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_scatter_yvar = "Planet radius (Jupiter radius)"
+# input$exoplanet_eu_bubble_sizevar = "Orbit semi-major axis (AU)"
+# input$exoplanet_eu_bubble_colorvar = "planet_detection_type"
 
 
-##################################################### Backend #########################################################
+#################################################### Backend #########################################################
 
 server = function(input, output, session){
 
@@ -199,13 +213,51 @@ server = function(input, output, session){
                              y_var_name = y_var_name)
             })
         }
-    })        
+    })
     
     ### Bubble
     
+    observe({
+        if(!is.null(input$exoplanet_eu_bubble_xvar) &
+           !is.null(input$exoplanet_eu_bubble_yvar) &
+           !is.null(input$exoplanet_eu_bubble_sizevar) &
+           !is.null(input$exoplanet_eu_bubble_colorvar)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_eu_bubble_xvar
+            x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_eu_bubble_yvar
+            y_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == y_var_name)] %>%
+                        names()
+            s_var_name = input$exoplanet_eu_bubble_sizevar
+            s_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == s_var_name)] %>%
+                        names()
+            c_var_name = input$exoplanet_eu_bubble_colorvar
+            c_var = list_opts_exoplanet_eu_num_nicechar_var[which(names(list_opts_exoplanet_eu_num_nicechar_var) == c_var_name)] %>%
+                        names()
+            
+            # Plot:
+            output$exoplanet_eu_bubble_plot = renderPlotly({
+                plot_bubble(df = df_exoplant_eu,
+                             x_var = x_var,
+                             y_var = y_var,
+                             s_var = s_var,
+                             c_var = c_var,
+                             x_var_name = x_var_name,
+                             y_var_name = y_var_name,
+                             s_var_name = s_var_name,
+                             c_var_name = c_var_name)
+            })
+        }
+    })
+    
+    ### Violin
     
     
     
+    
+    ### Barplot
+
     ### Correlation matrix
     
     ### Table
@@ -259,9 +311,8 @@ ui = fluidPage(
 
         ### Extrasolar Planets Encyclopaedia
         
-        ui_tab_exoplanet_eu(
-            opts_exoplanet_eu_num_var = opts_exoplanet_eu_num_var
-        ),
+        ui_tab_exoplanet_eu(opts_exoplanet_eu_num_var = opts_exoplanet_eu_num_var,
+                            opts_exoplanet_eu_color_var = opts_exoplanet_eu_color_var),
 
         ### NASA Exoplanet Archive
         
