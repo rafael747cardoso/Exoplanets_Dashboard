@@ -127,7 +127,139 @@ ui_tab_exoplanet_eu = function(
                 )
             ),
             
-            ### Tab 2: Bubble
+            ### Tab 2: 2D Density
+            
+            tabPanel(
+                div(
+                    class = "sub-tab-name",
+                    "2D Density"
+                ),
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Choose the variables and bins:
+                                fluidRow(
+                                    # Variable:
+                                    column(
+                                        width = 3,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable X"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_2d_density_xvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_num_var,
+                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    column(
+                                        width = 3,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable Y"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_2d_density_yvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_num_var,
+                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    # Bins X:
+                                    column(
+                                        width = 3,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Bins X"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                sliderInput(
+                                                    inputId = "exoplanet_eu_2d_density_xbins",
+                                                    label = "",
+                                                    min = 10,
+                                                    max = 1000,
+                                                    step = 50,
+                                                    value = 100,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    # Bins Y:
+                                    column(
+                                        width = 3,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Bins Y"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                sliderInput(
+                                                    inputId = "exoplanet_eu_2d_density_ybins",
+                                                    label = "",
+                                                    min = 10,
+                                                    max = 1000,
+                                                    step = 50,
+                                                    value = 100,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                # Plot:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                plotlyOutput(
+                                                    outputId = "exoplanet_eu_2d_density_plot",
+                                                    height = "500px"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            
+            ### Tab 3: Bubble
             
             tabPanel(
                 div(
@@ -146,7 +278,7 @@ ui_tab_exoplanet_eu = function(
                 
             ),
             
-            ### Tab 3: Correlation matrix
+            ### Tab 4: Correlation matrix
             
             tabPanel(
                 div(
@@ -161,7 +293,7 @@ ui_tab_exoplanet_eu = function(
                 
             ),
             
-            ### Tab 4: Table
+            ### Tab 5: Table
             
             tabPanel(
                 div(

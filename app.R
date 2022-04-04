@@ -41,6 +41,7 @@ if(app_dev == TRUE){
 source(paste0(path_funcs, "ui_tab_exoplanet_eu.R"))
 source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
 source(paste0(path_funcs, "plot_histogram.R"))
+source(paste0(path_funcs, "plot_2d_density.R"))
 
 # Global options:
 # options(scipen = 999)
@@ -79,6 +80,10 @@ opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
 # input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_histogram_bins = 100
 # input$exoplanet_eu_histogram_range = c(0, 135.3)
+# input$exoplanet_eu_2d_density_xvar = "Planet mass (Jupiter mass)"
+# input$exoplanet_eu_2d_density_yvar = "Planet radius (Jupiter radius)"
+# input$exoplanet_eu_2d_density_xbins = 100
+# input$exoplanet_eu_2d_density_ybins = 100
 
 ##################################################### Backend #########################################################
 
@@ -86,7 +91,7 @@ server = function(input, output, session){
 
     ##################################### Extrasolar Planets Encyclopaedia ############################################
     
-    ### Histrogram
+    ### Histogram
     
     observe({
         if(!is.null(input$exoplanet_eu_histogram_xvar) &
@@ -142,7 +147,43 @@ server = function(input, output, session){
         }
     })
     
-    ### Bubble plot
+    ### 2D Density
+    
+    observe({
+        if(!is.null(input$exoplanet_eu_2d_density_xvar) &
+           !is.null(input$exoplanet_eu_2d_density_yvar) &
+           !is.null(input$exoplanet_eu_2d_density_xbins) &
+           !is.null(input$exoplanet_eu_2d_density_ybins)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_eu_2d_density_xvar
+            x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_eu_2d_density_yvar
+            y_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == y_var_name)] %>%
+                        names()
+            
+            # Plot:
+            output$exoplanet_eu_2d_density_plot = renderPlotly({
+                plot_2d_density(df = df_exoplant_eu,
+                                x_var = x_var,
+                                y_var = y_var,
+                                x_var_name = x_var_name,
+                                y_var_name = y_var_name,
+                                x_nbins = input$exoplanet_eu_2d_density_xbins,
+                                y_nbins = input$exoplanet_eu_2d_density_ybins)
+            })
+        }
+    })    
+
+    ### Bubble
+    
+    
+    
+    
+    ### Correlation matrix
+    
+    ### Table
+    
     
     
     
