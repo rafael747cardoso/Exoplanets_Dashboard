@@ -143,7 +143,7 @@ ui_tab_exoplanet_eu = function(
                                 class = "card-body",
                                 # Choose the variables and bins:
                                 fluidRow(
-                                    # Variable:
+                                    # Variable X:
                                     column(
                                         width = 3,
                                         div(
@@ -165,6 +165,7 @@ ui_tab_exoplanet_eu = function(
                                             )
                                         )
                                     ),
+                                    # Variable Y:
                                     column(
                                         width = 3,
                                         div(
@@ -259,51 +260,124 @@ ui_tab_exoplanet_eu = function(
                 )
             ),
             
-            ### Tab 3: Bubble
+            ### Tab 3: Scatter with errors
+            
+            tabPanel(
+                div(
+                    class = "sub-tab-name",
+                    "Scatter"
+                ),
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Choose the variables:
+                                fluidRow(
+                                    # Variable X:
+                                    column(
+                                        width = 6,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable X"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_scatter_xvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_num_var,
+                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    # Variable Y
+                                    column(
+                                        width = 6,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable Y"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_scatter_yvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_num_var,
+                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                # Plot:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                plotlyOutput(
+                                                    outputId = "exoplanet_eu_scatter_plot",
+                                                    height = "500px"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            
+            ### Tab 4: Bubble
             
             tabPanel(
                 div(
                     class = "sub-tab-name",
                     "Bubble"
                 ),
-                # Choose x, y, color and size variables:
-                fluidRow(
-                    
-                ),
-                # Plot:
-                fluidRow(
-                    
-                )
                 
                 
             ),
             
-            ### Tab 4: Correlation matrix
+            ### Tab 5: Correlation matrix
             
             tabPanel(
                 div(
                     class = "sub-tab-name",
                     "Correlation matrix"
                 ),
-                # Plot:
-                fluidRow(
-                    
-                )
+                
                 
                 
             ),
             
-            ### Tab 5: Table
+            ### Tab 6: Table
             
             tabPanel(
                 div(
                     class = "sub-tab-name",
                     "Table"
                 ),
-                # Plot:
-                fluidRow(
-                    
-                )
+                
                 
                 
             )

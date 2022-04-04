@@ -42,9 +42,9 @@ source(paste0(path_funcs, "ui_tab_exoplanet_eu.R"))
 source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
 source(paste0(path_funcs, "plot_histogram.R"))
 source(paste0(path_funcs, "plot_2d_density.R"))
+source(paste0(path_funcs, "plot_scatter.R"))
 
 # Global options:
-# options(scipen = 999)
 options(spinner.color = "#0dc5c1")
 options(spinner.type = 4)
 sidebar_width = 250
@@ -74,7 +74,6 @@ opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
 
 
 
-
 # test:
 # input = list()
 # input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
@@ -84,6 +83,9 @@ opts_exoplanet_eu_num_var = unlist(unname(list_opts_exoplanet_eu_num_var))
 # input$exoplanet_eu_2d_density_yvar = "Planet radius (Jupiter radius)"
 # input$exoplanet_eu_2d_density_xbins = 100
 # input$exoplanet_eu_2d_density_ybins = 100
+# input$exoplanet_eu_scatter_xvar = "Planet mass (Jupiter mass)"
+# input$exoplanet_eu_scatter_yvar = "Planet radius (Jupiter radius)"
+
 
 ##################################################### Backend #########################################################
 
@@ -175,6 +177,30 @@ server = function(input, output, session){
         }
     })    
 
+    ### Scatter with errors
+    
+    observe({
+        if(!is.null(input$exoplanet_eu_scatter_xvar) &
+           !is.null(input$exoplanet_eu_scatter_yvar)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_eu_scatter_xvar
+            x_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_eu_scatter_yvar
+            y_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == y_var_name)] %>%
+                        names()
+            
+            # Plot:
+            output$exoplanet_eu_scatter_plot = renderPlotly({
+                plot_scatter(df = df_exoplant_eu,
+                             x_var = x_var,
+                             y_var = y_var,
+                             x_var_name = x_var_name,
+                             y_var_name = y_var_name)
+            })
+        }
+    })        
+    
     ### Bubble
     
     
