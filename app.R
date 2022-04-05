@@ -40,6 +40,8 @@ if(app_dev == TRUE){
 # Functions:
 source(paste0(path_funcs, "ui_tab_exoplanet_eu.R"))
 source(paste0(path_funcs, "ui_tab_exoplanet_nasa.R"))
+source(paste0(path_funcs, "missing_analysis.R"))
+source(paste0(path_funcs, "plot_missing_values.R"))
 source(paste0(path_funcs, "plot_histogram.R"))
 source(paste0(path_funcs, "plot_2d_density.R"))
 source(paste0(path_funcs, "plot_scatter.R"))
@@ -108,6 +110,20 @@ opts_exoplanet_eu_color_var = unlist(unname(list_opts_exoplanet_eu_num_nicechar_
 server = function(input, output, session){
 
     ##################################### Extrasolar Planets Encyclopaedia ############################################
+    
+    ### Missing Values
+    
+    output$exoplanet_eu_missing_values_plot = renderPlotly({
+        df_names = data.frame(
+            "var_name" = names(list_names_eu),
+            "var_name_nice" = unlist(unname(list_names_eu)),
+            stringsAsFactors = FALSE
+        )
+        df_plot = missing_analysis(df_exoplant_eu) %>%
+                      dplyr::left_join(df_names,
+                                       by = c("var_name" = "var_name"))
+        plot_missing_values(df = df_plot)
+    })
     
     ### Histogram
     

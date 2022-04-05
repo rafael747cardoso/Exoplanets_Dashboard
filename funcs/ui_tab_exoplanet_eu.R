@@ -23,11 +23,44 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
             position = "static-top",
             fluid = TRUE,
             
-            ### Tab 1: barplot of NAs
+            ### Tab 1: Barplot of missing values
             
+            tabPanel(
+                div(
+                    class = "sub-tab-name",
+                    "Missing Values"
+                ),
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                fluidRow(
+                                    column = 12,
+                                    div(
+                                        class = "card-no-border",
+                                        div(
+                                            class = "card-body",
+                                            plotlyOutput(
+                                                outputId = "exoplanet_eu_missing_values_plot",
+                                                height = "600px"
+                                            ) %>%
+                                                withSpinner(
+                                                    size = 0.3,
+                                                    proxy.height = "40px"
+                                                )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
             
-            
-            ### Tab 1: Histogram
+            ### Tab 2: Histogram
             
             tabPanel(
                 div(
@@ -130,7 +163,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                 )
             ),
             
-            ### Tab 2: 2D Density
+            ### Tab 3: 2D Density
             
             tabPanel(
                 div(
@@ -263,7 +296,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                 )
             ),
             
-            ### Tab 3: Scatter with errors
+            ### Tab 4: Scatter with errors
             
             tabPanel(
                 div(
@@ -350,7 +383,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                 )
             ),
             
-            ### Tab 4: Bubble
+            ### Tab 5: Bubble
             
             tabPanel(
                 div(
