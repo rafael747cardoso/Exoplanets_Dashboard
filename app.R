@@ -97,11 +97,13 @@ opts_exoplanet_eu_color_var = unlist(unname(list_opts_exoplanet_eu_num_nicechar_
 # input$exoplanet_eu_2d_density_ybins = 100
 # input$exoplanet_eu_scatter_xvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_scatter_yvar = "Planet radius (Jupiter radius)"
+# input$exoplanet_eu_bubble_xvar = "Planet mass (Jupiter mass)"
+# input$exoplanet_eu_bubble_yvar = "Planet radius (Jupiter radius)"
 # input$exoplanet_eu_bubble_sizevar = "Orbit semi-major axis (AU)"
-# input$exoplanet_eu_bubble_colorvar = "planet_detection_type"
+# input$exoplanet_eu_bubble_colorvar = "Angular distance (arcsec)"
 
 
-#################################################### Backend #########################################################
+################################################## Backend #########################################################
 
 server = function(input, output, session){
 
@@ -233,20 +235,20 @@ server = function(input, output, session){
             s_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == s_var_name)] %>%
                         names()
             c_var_name = input$exoplanet_eu_bubble_colorvar
-            c_var = list_opts_exoplanet_eu_num_nicechar_var[which(names(list_opts_exoplanet_eu_num_nicechar_var) == c_var_name)] %>%
+            c_var = list_opts_exoplanet_eu_num_nicechar_var[which(list_opts_exoplanet_eu_num_nicechar_var == c_var_name)] %>%
                         names()
             
             # Plot:
             output$exoplanet_eu_bubble_plot = renderPlotly({
                 plot_bubble(df = df_exoplant_eu,
-                             x_var = x_var,
-                             y_var = y_var,
-                             s_var = s_var,
-                             c_var = c_var,
-                             x_var_name = x_var_name,
-                             y_var_name = y_var_name,
-                             s_var_name = s_var_name,
-                             c_var_name = c_var_name)
+                            x_var = x_var,
+                            y_var = y_var,
+                            s_var = s_var,
+                            c_var = c_var,
+                            x_var_name = x_var_name,
+                            y_var_name = y_var_name,
+                            s_var_name = s_var_name,
+                            c_var_name = c_var_name)
             })
         }
     })

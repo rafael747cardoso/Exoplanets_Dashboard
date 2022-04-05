@@ -23,6 +23,10 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
             position = "static-top",
             fluid = TRUE,
             
+            ### Tab 1: barplot of NAs
+            
+            
+            
             ### Tab 1: Histogram
             
             tabPanel(
