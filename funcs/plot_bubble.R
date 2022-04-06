@@ -4,6 +4,10 @@
 plot_bubble = function(df, x_var, y_var, s_var, c_var,
                        x_var_name, y_var_name, s_var_name, c_var_name){
     
+    df = df[, c(x_var, y_var, s_var, c_var)]
+    df = df %>%
+             tidyr::drop_na()
+
     p = plot_ly()
     if(is.character(df[, c_var])){
         # Case of categoric c_var:
@@ -25,10 +29,13 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
             text = ~eval(parse(text = c_var)),
             type = "scatter",
             mode = "markers",
-            sizes = c(5, 30),
+            sizes = c(10, 50),
             marker = list(
-                opacity = 0.7,
-                sizemode = "diameter"
+                opacity = 0.9,
+                sizemode = "diameter",
+                line = list(
+                    color = "rgba(0, 0, 0, 0)"
+                )
             ),
             customdata = ~eval(parse(text = s_var)),
             hovertemplate = paste0("<b>", x_var_name, ": %{x}<br>",
@@ -38,7 +45,13 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
         )
     } else{
         # Case of numeric c_var:
-        my_palette = c("#E008F8", "#F81D08", "#F88A08", "#F7FE04")
+        my_palette = list(
+            list(0, "#005BBB"),
+            list(0.25, "#387691"),
+            list(0.5, "#719167"),
+            list(0.75, "#C6B929"),
+            list(1, "#FFD500")
+        )
         p = p %>%
         add_trace(
             data = df,
@@ -47,24 +60,35 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
             text = ~eval(parse(text = c_var)),
             type = "scatter",
             mode = "markers",
+            sizes = c(10, 50),
+            size = ~eval(parse(text = s_var)),
             marker = list(
-                sizes = c(5, 30),
-                size = ~eval(parse(text = s_var)),
-                sizemode = "area",
-                sizeref = 100,
-                opacity = 0.7,
-                color = ~eval(parse(text = y_var)),
-                colors = my_palette,
+                sizemode = "diameter",
+                color = ~eval(parse(text = c_var)),
+                opacity = 0.9,
+                autocolorscale = FALSE,
+                colorscale = my_palette,
                 colorbar = list(
-                    title = paste0("<b>", c_var_name, "</b>"),
-                    len = 1
+                    len = 1,
+                    tickfont = list(
+                        color = "white"
+                    ),
+                    title = list(
+                        text = paste0("<b>", c_var_name, "</b>"),
+                        font = list(
+                            color = "white"
+                        )
+                    )
+                ),
+                line = list(
+                    color = "rgba(0, 0, 0, 0)"
                 )
             ),
             customdata = ~eval(parse(text = s_var)),
             hovertemplate = paste0("<b>", x_var_name, ": %{x}<br>",
                                    y_var_name, ": %{y}<br>",
-                                   c_var_name, ": %{text}<br>",
-                                   s_var_name, ": %{customdata}</b><extra></extra>")
+                                   s_var_name, ": %{customdata}<br>",
+                                   c_var_name, ": %{text}</b><extra></extra>")
         )
     }
     
@@ -115,7 +139,7 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
                 )
             )
         ),
-        showlegend = TRUE
+        showlegend = FALSE
     )
     
 }
