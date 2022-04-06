@@ -4,20 +4,16 @@
 plot_bubble = function(df, x_var, y_var, s_var, c_var,
                        x_var_name, y_var_name, s_var_name, c_var_name){
     
-    df = df[, c(x_var, y_var, s_var, c_var)]
-    df = df %>%
-             tidyr::drop_na()
-
     p = plot_ly()
     if(is.character(df[, c_var])){
         # Case of categoric c_var:
+        show_the_legend = TRUE
         lvls = unique(df[, c_var])
         n_levels = length(lvls)
-        my_palette = c("#FC291C", "#FC7E1C", "#FCDE1C", "#ADFC1C", "#1CFC4C", 
-                       "#1CFCE0", "#1C6DFC", "#651CFC", "#CB1CFC")
+        my_palette = c("#F81111", "#F48800", "#FFF300", "#65F002", "#0EF6F1", 
+                       "#034FF2", "#C481F6", "#860AAB", "#E0008A")
         my_palette = my_palette[1:n_levels]
         names(my_palette) = lvls
-        print("ssssss")
         p = p %>%
         add_trace(
             data = df,
@@ -45,6 +41,7 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
         )
     } else{
         # Case of numeric c_var:
+        show_the_legend = FALSE
         my_palette = list(
             list(0, "#005BBB"),
             list(0.25, "#387691"),
@@ -132,16 +129,16 @@ plot_bubble = function(df, x_var, y_var, s_var, c_var,
         paper_bgcolor = "rgba(0, 0, 0, 0)",
         legend = list(
             title = list(
-                text = paste0("<br><b>", c_var_name, "</b>"),
-                font = list(
-                    size = 18,
-                    color = "white"
-                )
+                text = paste0("<br><b>", c_var_name, "</b>")
+            ),
+            font = list(
+                size = 18,
+                color = "white"
             )
         ),
-        showlegend = FALSE
+        showlegend = show_the_legend
     )
-    
+
 }
 
 

@@ -99,13 +99,13 @@ opts_exoplanet_eu_color_var = unlist(unname(list_opts_exoplanet_eu_num_nicechar_
 # input$exoplanet_eu_2d_density_ybins = 100
 # input$exoplanet_eu_scatter_xvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_scatter_yvar = "Planet radius (Jupiter radius)"
-# input$exoplanet_eu_bubble_xvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_bubble_yvar = "Planet radius (Jupiter radius)"
-# input$exoplanet_eu_bubble_sizevar = "Orbit semi-major axis (AU)"
-# input$exoplanet_eu_bubble_colorvar = "Angular distance (arcsec)"
+# input$exoplanet_eu_bubble_xvar = "Orbit semi-major axis (AU)"
+# input$exoplanet_eu_bubble_yvar = "Orbit eccentricity"
+# input$exoplanet_eu_bubble_sizevar = "Planet radius (Jupiter radius)"
+# input$exoplanet_eu_bubble_colorvar = "Detection method"
 
 
-################################################## Backend #########################################################
+################################################# Backend #########################################################
 
 server = function(input, output, session){
 
@@ -253,10 +253,12 @@ server = function(input, output, session){
             c_var_name = input$exoplanet_eu_bubble_colorvar
             c_var = list_opts_exoplanet_eu_num_nicechar_var[which(list_opts_exoplanet_eu_num_nicechar_var == c_var_name)] %>%
                         names()
-            
+            df_plot = df_exoplant_eu[, c(x_var, y_var, s_var, c_var)] %>%
+                          tidyr::drop_na()
+
             # Plot:
             output$exoplanet_eu_bubble_plot = renderPlotly({
-                plot_bubble(df = df_exoplant_eu,
+                plot_bubble(df = df_plot,
                             x_var = x_var,
                             y_var = y_var,
                             s_var = s_var,

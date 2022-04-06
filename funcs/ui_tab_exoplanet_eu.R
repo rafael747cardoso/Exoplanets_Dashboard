@@ -414,7 +414,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                     inputId = "exoplanet_eu_bubble_xvar",
                                                     label = "",
                                                     choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    selected = opts_exoplanet_eu_num_var[13],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -436,7 +436,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                     inputId = "exoplanet_eu_bubble_yvar",
                                                     label = "",
                                                     choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    selected = opts_exoplanet_eu_num_var[16],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -458,7 +458,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                     inputId = "exoplanet_eu_bubble_sizevar",
                                                     label = "",
                                                     choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[13],
+                                                    selected = opts_exoplanet_eu_num_var[7],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
