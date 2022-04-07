@@ -23,7 +23,8 @@ packages = c(
     "DT",
     "stringr",
     "moments",
-    "Hmisc"
+    "Hmisc",
+    "reshape2"
 )
 if(app_dev == TRUE){
     for(pckg in packages){
@@ -50,6 +51,7 @@ source(paste0(path_funcs, "plot_scatter.R"))
 source(paste0(path_funcs, "plot_bubble.R"))
 source(paste0(path_funcs, "plot_violin.R"))
 source(paste0(path_funcs, "plot_barplot.R"))
+source(paste0(path_funcs, "plot_corrmatrix.R"))
 
 # Global options:
 options(spinner.color = "#0dc5c1")
@@ -363,26 +365,26 @@ server = function(input, output, session){
     ### Correlation matrix
     
     observe({
-        df_plot = df_exoplant_eu[, num_vars_eu]
-        names(df_plot) = unlist(unname(list_opts_exoplanet_eu_num_var))
-        
         # Remove the columns with too little data:
-        df_names = data.frame(
-            "var_name" = num_vars_eu,
-            "var_name_nice" = names(df_plot),
-            stringsAsFactors = FALSE
-        )
         df_miss = missing_analysis(df_exoplant_eu) %>%
-                      dplyr::filter(non_na_pct > 90)
-        df_plot = df_plot[, df_miss$var_name]
+                      dplyr::filter(non_na_pct > 10)
+        df_miss$var_name = as.character(df_miss$var_name)
+        df_plot = df_exoplant_eu[, df_miss$var_name]
         
-        df_plot = df_plot %>%
-                      tidyr::drop_na()
+        # Take only the numeric columns:
+        num_vars = df_plot %>%
+                       dplyr::select_if(is.numeric) %>%
+                       names()
+        df_plot = df_plot[, num_vars]
+        list_vars = list_names_eu[num_vars]
+        names(df_plot) = unlist(unname(list_vars))
+
+        # Correlation:
         df_plot = (df_plot %>%
                       as.matrix() %>%
-                      rcorr(type = "pearson"))$r
-        df_plot = melt(data = df_plot,
-                       value.name = "Vars_corr")
+                      Hmisc::rcorr(type = "pearson"))$r
+        df_plot = reshape2::melt(data = df_plot,
+                                 value.name = "Vars_corr")
         
         # Plot:
         output$exoplanet_eu_corrmatrix_plot = renderPlotly({
@@ -390,9 +392,6 @@ server = function(input, output, session){
         })
         
     })
-    
-    
-    
     
     ### Table
     

@@ -16,3 +16,4 @@ Exoplanets_Dashboard.Rproj
 rsconnect
 renv.lock
 .RData
+.Rhistory
