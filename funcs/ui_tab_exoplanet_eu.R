@@ -695,11 +695,39 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
             tabPanel(
                 div(
                     class = "sub-tab-name",
-                    "Correlation matrix"
+                    "Correlation Matrix"
                 ),
-                
-                
-                
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Plot:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                plotlyOutput(
+                                                    outputId = "exoplanet_eu_corrmatrix_plot",
+                                                    height = "500px"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
             ),
 
             ### Tab 9: Table

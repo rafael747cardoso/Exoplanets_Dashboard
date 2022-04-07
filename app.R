@@ -22,7 +22,8 @@ packages = c(
     "plotly",
     "DT",
     "stringr",
-    "moments"
+    "moments",
+    "Hmisc"
 )
 if(app_dev == TRUE){
     for(pckg in packages){
@@ -359,9 +360,39 @@ server = function(input, output, session){
         }
     })
     
-    
-    
     ### Correlation matrix
+    
+    observe({
+        df_plot = df_exoplant_eu[, num_vars_eu]
+        names(df_plot) = unlist(unname(list_opts_exoplanet_eu_num_var))
+        
+        # Remove the columns with too little data:
+        df_names = data.frame(
+            "var_name" = num_vars_eu,
+            "var_name_nice" = names(df_plot),
+            stringsAsFactors = FALSE
+        )
+        df_miss = missing_analysis(df_exoplant_eu) %>%
+                      dplyr::filter(non_na_pct > 90)
+        df_plot = df_plot[, df_miss$var_name]
+        
+        df_plot = df_plot %>%
+                      tidyr::drop_na()
+        df_plot = (df_plot %>%
+                      as.matrix() %>%
+                      rcorr(type = "pearson"))$r
+        df_plot = melt(data = df_plot,
+                       value.name = "Vars_corr")
+        
+        # Plot:
+        output$exoplanet_eu_corrmatrix_plot = renderPlotly({
+            plot_corrmatrix(df = df_plot)
+        })
+        
+    })
+    
+    
+    
     
     ### Table
     
