@@ -48,6 +48,7 @@ source(paste0(path_funcs, "plot_2d_density.R"))
 source(paste0(path_funcs, "plot_scatter.R"))
 source(paste0(path_funcs, "plot_bubble.R"))
 source(paste0(path_funcs, "plot_violin.R"))
+source(paste0(path_funcs, "plot_barplot.R"))
 
 # Global options:
 options(spinner.color = "#0dc5c1")
@@ -114,7 +115,7 @@ opts_exoplanet_eu_cat_var = unlist(unname(list_opts_exoplanet_eu_cat_var))
 # input$exoplanet_eu_violin_xvar = "Publication status"
 # input$exoplanet_eu_violin_yvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_violin_scale = "Linear"
-
+# input$exoplanet_eu_barplot_xvar = "Detection method"
 
 
 ################################################# Backend #########################################################
@@ -316,13 +317,50 @@ server = function(input, output, session){
         }
     })
     
-    
-    
-    
-    
-    
     ### Barplot
+    
+    observe({
+        if(!is.null(input$exoplanet_eu_barplot_xvar)){
+            # Chosen variable:
+            x_var_name = input$exoplanet_eu_barplot_xvar
+            x_var = list_opts_exoplanet_eu_cat_var[which(list_opts_exoplanet_eu_cat_var == x_var_name)] %>%
+                        names()
 
+            # Adapt the data:
+            df_plot = df_exoplant_eu[, c(x_var)] %>%
+                          as.data.frame() %>%
+                          tidyr::drop_na()
+            names(df_plot) = x_var
+            df_plot = df_plot %>%
+                          dplyr::group_by(eval(parse(text = x_var))) %>%
+                          dplyr::summarise(freq = n()) %>%
+                          as.data.frame() %>%
+                          dplyr::arrange(desc(freq))
+            names(df_plot)[1] = "level"
+
+            # Levels order:
+            df_plot$level = factor(x = df_plot$level,
+                                   levels = unique(df_plot$level))
+            
+            # Relative frequency:
+            df_plot$freq_rel = round(df_plot$freq/sum(df_plot$freq)*100,
+                                     digits = 3)
+            df_plot$freq_rel_char = paste0(df_plot$freq_rel, "%")
+            
+            # Cumulative frequency:
+            df_plot$freq_rel_cum = cumsum(df_plot$freq_rel)
+            df_plot$freq_rel_cum_char = paste0(df_plot$freq_rel_cum, "%")
+            
+            # Plot:
+            output$exoplanet_eu_barplot_plot = renderPlotly({
+                plot_barplot(df = df_plot,
+                             x_var_name = x_var_name)
+            })
+        }
+    })
+    
+    
+    
     ### Correlation matrix
     
     ### Table

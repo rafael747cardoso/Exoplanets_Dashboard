@@ -632,9 +632,62 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                     class = "sub-tab-name",
                     "Barplot"
                 ),
-                
-                
-                
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Choose the variable:
+                                fluidRow(
+                                    # Variable X:
+                                    column(
+                                        width = 6,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variable X"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_barplot_xvar",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_cat_var,
+                                                    selected = opts_exoplanet_eu_cat_var[2],
+                                                    multiple = FALSE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                # Plot:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                plotlyOutput(
+                                                    outputId = "exoplanet_eu_barplot_plot",
+                                                    height = "500px"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
             ),
             
             ### Tab 8: Correlation matrix
