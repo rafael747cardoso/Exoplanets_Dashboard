@@ -111,9 +111,9 @@ opts_exoplanet_eu_cat_var = unlist(unname(list_opts_exoplanet_eu_cat_var))
 # input$exoplanet_eu_bubble_yvar = "Orbit eccentricity"
 # input$exoplanet_eu_bubble_sizevar = "Planet radius (Jupiter radius)"
 # input$exoplanet_eu_bubble_colorvar = "Detection method"
-# input$exoplanet_eu_violin_xvar = "Detection method"
+# input$exoplanet_eu_violin_xvar = "Publication status"
 # input$exoplanet_eu_violin_yvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_violin_groupvar = "Star detected disc"
+# input$exoplanet_eu_violin_scale = "Linear"
 
 
 
@@ -288,7 +288,7 @@ server = function(input, output, session){
     observe({
         if(!is.null(input$exoplanet_eu_violin_xvar) &
            !is.null(input$exoplanet_eu_violin_yvar) &
-           !is.null(input$exoplanet_eu_violin_groupvar)){
+           !is.null(input$exoplanet_eu_violin_scale)){
             # Chosen variables:
             x_var_name = input$exoplanet_eu_violin_xvar
             x_var = list_opts_exoplanet_eu_cat_var[which(list_opts_exoplanet_eu_cat_var == x_var_name)] %>%
@@ -296,28 +296,23 @@ server = function(input, output, session){
             y_var_name = input$exoplanet_eu_violin_yvar
             y_var = list_opts_exoplanet_eu_num_var[which(list_opts_exoplanet_eu_num_var == y_var_name)] %>%
                         names()
-            g_var_name = input$exoplanet_eu_violin_groupvar
-            g_var = list_opts_exoplanet_eu_cat_var[which(list_opts_exoplanet_eu_cat_var == g_var_name)] %>%
-                        names()
-            df_plot = df_exoplant_eu[, c(x_var, y_var, g_var)] %>%
+            df_plot = df_exoplant_eu[, c(x_var, y_var)] %>%
                           tidyr::drop_na()
 
             # Levels order:
-            sorted_levels1 = sort(unique(df_plot[, x_var]))
+            sorted_levels = sort(unique(df_plot[, x_var]))
             df_plot[, x_var] = factor(x = df_plot[, x_var],
-                                      levels = sorted_levels1)
-            sorted_levels2 = sort(unique(df_plot[, g_var]))
-            df_plot[, g_var] = factor(x = df_plot[, g_var],
-                                      levels = sorted_levels2)
+                                      levels = sorted_levels)
             
-            plot_violin(df = df_plot,
-                        x_var = x_var,
-                        y_var = y_var,
-                        g_var = g_var,
-                        x_var_name = x_var_name,
-                        y_var_name = y_var_name,
-                        g_var_name = g_var_name)
-            
+            # Plot:
+            output$exoplanet_eu_violin_plot = renderPlotly({
+                plot_violin(df = df_plot,
+                            x_var = x_var,
+                            y_var = y_var,
+                            x_var_name = x_var_name,
+                            y_var_name = y_var_name,
+                            plot_scale = input$exoplanet_eu_violin_scale)
+            })
         }
     })
     

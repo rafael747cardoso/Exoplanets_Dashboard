@@ -1,27 +1,30 @@
 
 ### Plot the grouped violins
 
-plot_violin = function(df, x_var, y_var, g_var, x_var_name, y_var_name, g_var_name){
+plot_violin = function(df, x_var, y_var, x_var_name, y_var_name, plot_scale){
     
-    my_palette = colorRampPalette(c("#111539", "#97A1D9"))
-    n_levels2 = length(unique(df_plot[, g_var]))
+    plot_scale = ifelse(plot_scale == "Linear",
+                        "linear",
+                        "log")
+    my_palette = c("#F81111", "#F48800", "#FFF300", "#65F002", "#0EF6F1", 
+                   "#034FF2", "#C481F6", "#860AAB", "#E0008A")
     plot_ly(
-        data = df_plot,
+        data = df,
         type = "violin",
         x = ~eval(parse(text = x_var)),
         y = ~eval(parse(text = y_var)),
         color = ~eval(parse(text = x_var)),
-        colors = my_palette(n_levels2),
+        colors = my_palette,
         spanmode = "hard",
-        alpha = 1,
+        alpha = 0.7,
         box = list(
-            visible = FALSE
+            visible = TRUE
         ),
         meanline = list(
-            visible = FALSE
+            visible = TRUE
         ),
-        points = FALSE,
-        scalemode = "width"  ### this doesn't work (R plotly bug?)
+        points = TRUE,
+        scalemode = "width"
     ) %>%
     layout(
         xaxis = list(
@@ -32,7 +35,9 @@ plot_violin = function(df, x_var, y_var, g_var, x_var_name, y_var_name, g_var_na
             tickfont = list(
                 size = 18
             ),
-            categoryorder = "array"
+            categoryorder = "array",
+            color = "white",
+            gridcolor = "rgba(0, 0, 0, 0)"
         ),
         yaxis = list(
             title = paste0("<b>", y_var_name, "</b>"),
@@ -41,8 +46,10 @@ plot_violin = function(df, x_var, y_var, g_var, x_var_name, y_var_name, g_var_na
             ),
             tickfont = list(
                 size = 18
-            )#,
-            # type = "log"
+            ),
+            type = plot_scale,
+            color = "white",
+            gridcolor = "rgba(0, 0, 0, 0)"
         ),
         margin = list(
             l = 10,
@@ -50,12 +57,15 @@ plot_violin = function(df, x_var, y_var, g_var, x_var_name, y_var_name, g_var_na
             t = 10,
             b = 10
         ),
+        plot_bgcolor = "rgba(0, 0, 0, 0)",
+        paper_bgcolor = "rgba(0, 0, 0, 0)",
         legend = list(
             title = list(
-                text = paste0("<br><b>", g_var_name, "</b>"),
-                font = list(
-                    size = 18
-                )
+                text = paste0("<br><b>", x_var_name, "</b>")
+            ),
+            font = list(
+                size = 18,
+                color = "white"
             )
         ),
         hoverlabel = list(

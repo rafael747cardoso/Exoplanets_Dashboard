@@ -546,7 +546,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                     inputId = "exoplanet_eu_violin_xvar",
                                                     label = "",
                                                     choices = opts_exoplanet_eu_cat_var,
-                                                    selected = opts_exoplanet_eu_cat_var[1],
+                                                    selected = opts_exoplanet_eu_cat_var[2],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -575,22 +575,22 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                             )
                                         )
                                     ),
-                                    # Variable Group:
+                                    # Scale:
                                     column(
                                         width = 4,
                                         div(
                                             class = "card-no-border",
                                             div(
                                                 class = "card-header",
-                                                "Group"
+                                                "Scale"
                                             ),
                                             div(
                                                 class = "card-body",
                                                 selectInput(
-                                                    inputId = "exoplanet_eu_violin_groupvar",
+                                                    inputId = "exoplanet_eu_violin_scale",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_cat_var,
-                                                    selected = opts_exoplanet_eu_cat_var[2],
+                                                    choices = c("Linear", "Log"),
+                                                    selected = "Linear",
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
