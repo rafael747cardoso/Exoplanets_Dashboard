@@ -100,6 +100,9 @@ cat_var_eu = cat_var_eu[which(!(cat_var_eu %in% c("planet_status", "star_magneti
 list_opts_exoplanet_eu_cat_var = list_names_eu[cat_var_eu]
 opts_exoplanet_eu_cat_var = unlist(unname(list_opts_exoplanet_eu_cat_var))
 
+# All variables
+opts_exoplanet_eu_all_vars = unlist(unname(list_names_eu[names(df_exoplant_eu)]))
+
 # Test:
 # input = list()
 # input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
@@ -119,9 +122,10 @@ opts_exoplanet_eu_cat_var = unlist(unname(list_opts_exoplanet_eu_cat_var))
 # input$exoplanet_eu_violin_yvar = "Planet mass (Jupiter mass)"
 # input$exoplanet_eu_violin_scale = "Linear"
 # input$exoplanet_eu_barplot_xvar = "Detection method"
+# input$exoplanet_eu_table_vars = c("Planet name", "Planet status")
 
 
-################################################# Backend #########################################################
+################################################### Backend ###########################################################
 
 server = function(input, output, session){
 
@@ -390,18 +394,34 @@ server = function(input, output, session){
         output$exoplanet_eu_corrmatrix_plot = renderPlotly({
             plot_corrmatrix(df = df_plot)
         })
-        
     })
     
     ### Table
     
+    observe({
+        if(!is.na(input$exoplanet_eu_table_vars)){
+            
+            df = df_exoplant_eu
+            names(df) = opts_exoplanet_eu_all_vars
+            table_vars = input$exoplanet_eu_table_vars
+            df = df_exoplant_eu[, table_vars]
+            
+            
+            
+            
+            # Table:
+            output$exoplanet_eu_table = DT::renderDataTable(
+                df,
+                options = list(
+                    scrollX = TRUE
+                ),
+                rownames = FALSE,
+                colnames = unlist(unname(list_names_eu[names(df)]))
+            )
+            
+        }
+    })
     
-    
-    
-    
-    
-    
-
     ########################################## NASA Exoplanet Archive #################################################
     
     
@@ -446,7 +466,8 @@ ui = fluidPage(
         
         ui_tab_exoplanet_eu(opts_exoplanet_eu_num_var = opts_exoplanet_eu_num_var,
                             opts_exoplanet_eu_color_var = opts_exoplanet_eu_color_var,
-                            opts_exoplanet_eu_cat_var = opts_exoplanet_eu_cat_var),
+                            opts_exoplanet_eu_cat_var = opts_exoplanet_eu_cat_var,
+                            opts_exoplanet_eu_all_vars = opts_exoplanet_eu_all_vars),
 
         ### NASA Exoplanet Archive
         

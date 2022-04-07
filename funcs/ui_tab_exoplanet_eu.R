@@ -3,7 +3,8 @@
 
 ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var, 
                                opts_exoplanet_eu_color_var,
-                               opts_exoplanet_eu_cat_var){
+                               opts_exoplanet_eu_cat_var,
+                               opts_exoplanet_eu_all_vars){
     
     tabPanel(
         div(
@@ -714,7 +715,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 class = "card-body",
                                                 plotlyOutput(
                                                     outputId = "exoplanet_eu_corrmatrix_plot",
-                                                    height = "500px"
+                                                    height = "1000px"
                                                 ) %>%
                                                     withSpinner(
                                                         size = 0.3,
@@ -737,9 +738,60 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                     class = "sub-tab-name",
                     "Table"
                 ),
-                
-                
-                
+                fluidRow(
+                    column(
+                        width = 12,
+                        div(
+                            class = "card",
+                            div(
+                                class = "card-body",
+                                # Choose the variables:
+                                fluidRow(
+                                    column(
+                                        width = 4,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-header",
+                                                "Variables"
+                                            ),
+                                            div(
+                                                class = "card-body",
+                                                selectInput(
+                                                    inputId = "exoplanet_eu_table_vars",
+                                                    label = "",
+                                                    choices = opts_exoplanet_eu_all_vars,
+                                                    selected = opts_exoplanet_eu_all_vars[1:2],
+                                                    multiple = TRUE,
+                                                    width = "100%"
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                # Table:
+                                fluidRow(
+                                    column(
+                                        width = 12,
+                                        div(
+                                            class = "card-no-border",
+                                            div(
+                                                class = "card-body",
+                                                dataTableOutput(
+                                                    outputId = "exoplanet_eu_table"
+                                                ) %>%
+                                                    withSpinner(
+                                                        size = 0.3,
+                                                        proxy.height = "40px"
+                                                    )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
             )
             
             
