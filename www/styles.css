@@ -138,6 +138,12 @@ html {background-color: #010000}
 }
 
 
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    background-color: rgba(99, 68, 231, 0.3);
+    border-radius: 26px;
+}
+
+
 /******************************************************* Cards *******************************************************/
 
 .card {
@@ -222,9 +228,6 @@ html {background-color: #010000}
     margin-bottom: 30px;
     margin-top: 10px;
 }
-
-
-
 
 
 
