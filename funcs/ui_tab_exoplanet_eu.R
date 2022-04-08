@@ -793,14 +793,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                     )
                 )
             )
-            
-            
-            
         )
-        
-        
-        
     )
-
 }
+
 

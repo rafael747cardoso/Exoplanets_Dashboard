@@ -12,8 +12,16 @@ plot_corrmatrix = function(df){
         type = "heatmap",
         colors = my_palette,
         colorbar = list(
-            title = "<b>Pearson correlation</b>",
-            len = 1
+            title = list(
+                text = "<b>Pearson correlation</b>",
+                font = list(
+                    color = "white"
+                )
+            ),
+            tickfont = list(
+                color = "white"
+            ),
+            len = 1      
         ),
         hovertemplate = paste0("<b>",
                                "%{x}<br>",
@@ -21,8 +29,8 @@ plot_corrmatrix = function(df){
                                "Correlation: %{z:}</b><extra></extra>")
     ) %>%
     layout(
-        height = 1000,
-        width = 1500,
+        # height = 1000,
+        # width = 1500,
         xaxis = list(
             title = "",
             tickfont = list(
