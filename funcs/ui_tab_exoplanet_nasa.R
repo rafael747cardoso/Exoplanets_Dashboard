@@ -93,7 +93,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_histogram_xvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[1],
+                                                    selected = opts_num_var[14],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -196,7 +196,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_2d_density_xvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[1],
+                                                    selected = opts_num_var[51],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -218,7 +218,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_2d_density_yvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[7],
+                                                    selected = opts_num_var[55],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -329,7 +329,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_scatter_xvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[1],
+                                                    selected = opts_num_var[30],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -351,7 +351,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_scatter_yvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[7],
+                                                    selected = opts_num_var[43],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )

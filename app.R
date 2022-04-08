@@ -139,34 +139,9 @@ opts_exoplanet_nasa_all_vars = unlist(unname(list_names_nasa[names(df_exoplant_n
 
 # Test:
 # input = list()
-# input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_histogram_bins = 100
-# input$exoplanet_eu_histogram_range = c(0, 135.3)
-# input$exoplanet_eu_2d_density_xvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_2d_density_yvar = "Planet radius (Jupiter radius)"
-# input$exoplanet_eu_2d_density_xbins = 100
-# input$exoplanet_eu_2d_density_ybins = 100
-# input$exoplanet_eu_scatter_xvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_scatter_yvar = "Planet radius (Jupiter radius)"
-# input$exoplanet_eu_bubble_xvar = "Orbit semi-major axis (AU)"
-# input$exoplanet_eu_bubble_yvar = "Orbit eccentricity"
-# input$exoplanet_eu_bubble_sizevar = "Planet radius (Jupiter radius)"
-# input$exoplanet_eu_bubble_colorvar = "Detection method"
-# input$exoplanet_eu_violin_xvar = "Publication status"
-# input$exoplanet_eu_violin_yvar = "Planet mass (Jupiter mass)"
-# input$exoplanet_eu_violin_scale = "Linear"
-# input$exoplanet_eu_barplot_xvar = "Detection method"
-# input$exoplanet_eu_table_vars = c("Planet name", "Planet status")
+# input$exoplanet_nasa_scatter_xvar = "Eccentricity"
+# input$exoplanet_nasa_scatter_yvar = "Stellar Effective Temperature (K)"
 
-# input$exoplanet_nasa_histogram_xvar = "Default Parameter Set"
-# input$exoplanet_nasa_histogram_bins = 100
-# input$exoplanet_nasa_histogram_range = c(0, 135.3)
-# input$exoplanet_nasa_2d_density_xvar = ""
-# input$exoplanet_nasa_2d_density_yvar = ""
-# input$exoplanet_nasa_2d_density_xbins = 100
-# input$exoplanet_nasa_2d_density_ybins = 100
-# input$exoplanet_nasa_scatter_xvar = ""
-# input$exoplanet_nasa_scatter_yvar = ""
 # input$exoplanet_nasa_bubble_xvar = ""
 # input$exoplanet_nasa_bubble_yvar = ""
 # input$exoplanet_nasa_bubble_sizevar = ""

@@ -8,7 +8,7 @@ plot_scatter = function(df, x_var, y_var, x_var_name, y_var_name){
                              pattern = x_var)]
     if(sum(grepl(x = x_vars,
                  pattern = "_error_")) == 2){
-        x_var_error = (df[, paste0(x_var, "_error_min")] + df[, paste0(x_var, "_error_max")])/2
+        x_var_error = abs((df[, paste0(x_var, "_error_min")] + df[, paste0(x_var, "_error_max")])/2)
     } else{
         x_var_error = NA
     }
@@ -16,7 +16,7 @@ plot_scatter = function(df, x_var, y_var, x_var_name, y_var_name){
                              pattern = y_var)]
     if(sum(grepl(x = y_vars,
                  pattern = "_error_")) == 2){
-        y_var_error = (df[, paste0(y_var, "_error_min")] + df[, paste0(y_var, "_error_max")])/2
+        y_var_error = abs((df[, paste0(y_var, "_error_min")] + df[, paste0(y_var, "_error_max")])/2)
     } else{
         y_var_error = NA
     }
