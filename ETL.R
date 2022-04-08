@@ -285,7 +285,6 @@ list_names_nasa = list(
     "star_num_stars_cat" = "Number of Stars Categoric",
     "star_num_planets_cat" = "Number of Planets Categoric"
 )
-
 names(df_exoplant_nasa) = names(list_names_nasa)
 
 # Change the empty strings for NA:
@@ -293,8 +292,12 @@ df_exoplant_nasa = df_exoplant_nasa %>%
                        dplyr::mutate_if(is.character, empty_to_na)
 
 # Change the infinite values for NA:
-df_exoplant_eu[df_exoplant_eu == Inf] = NA
+df_exoplant_nasa[df_exoplant_nasa == Inf] = NA
 
+# Remove extreme outliers:
+df_exoplant_nasa = df_exoplant_nasa %>%
+                       dplyr::filter(planet_orb_period_days < 1e6 &
+                                     planet_radius_earth_radius < 1e2)
 
 # Save in RDS:
 saveRDS(object = list_names_nasa,
