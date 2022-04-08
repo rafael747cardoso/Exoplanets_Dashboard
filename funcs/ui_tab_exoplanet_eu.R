@@ -1,10 +1,10 @@
 
 ### UI of the Extrasolar Planets Encyclopaedia tab
 
-ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var, 
-                               opts_exoplanet_eu_color_var,
-                               opts_exoplanet_eu_cat_var,
-                               opts_exoplanet_eu_all_vars){
+ui_tab_exoplanet_eu = function(opts_num_var, 
+                               opts_color_var,
+                               opts_cat_var,
+                               opts_all_vars){
     
     tabPanel(
         div(
@@ -92,8 +92,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_histogram_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -195,8 +195,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_2d_density_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -217,8 +217,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_2d_density_yvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[7],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -328,8 +328,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_scatter_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -350,8 +350,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_scatter_yvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[7],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -415,8 +415,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_bubble_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[13],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[13],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -437,8 +437,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_bubble_yvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[16],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[16],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -459,8 +459,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_bubble_sizevar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[7],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[7],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -481,8 +481,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_bubble_colorvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_color_var,
-                                                    selected = opts_exoplanet_eu_color_var[1],
+                                                    choices = opts_color_var,
+                                                    selected = opts_color_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -546,8 +546,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_violin_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_cat_var,
-                                                    selected = opts_exoplanet_eu_cat_var[2],
+                                                    choices = opts_cat_var,
+                                                    selected = opts_cat_var[2],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -568,8 +568,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_violin_yvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_num_var,
-                                                    selected = opts_exoplanet_eu_num_var[1],
+                                                    choices = opts_num_var,
+                                                    selected = opts_num_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -656,8 +656,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_barplot_xvar",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_cat_var,
-                                                    selected = opts_exoplanet_eu_cat_var[2],
+                                                    choices = opts_cat_var,
+                                                    selected = opts_cat_var[2],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -760,8 +760,8 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                                 selectInput(
                                                     inputId = "exoplanet_eu_table_vars",
                                                     label = "",
-                                                    choices = opts_exoplanet_eu_all_vars,
-                                                    selected = opts_exoplanet_eu_all_vars[1:2],
+                                                    choices = opts_all_vars,
+                                                    selected = opts_all_vars[1:2],
                                                     multiple = TRUE,
                                                     width = "100%"
                                                 )

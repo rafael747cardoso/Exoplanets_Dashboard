@@ -184,6 +184,10 @@ saveRDS(object = df_exoplant_eu,
 # Read the data:
 df_exoplant_nasa = read.csv(paste0(path_data, "dataset_nasa_exoplanet_archive_PS_2022.02.27_15.16.00.csv"))
 
+# Make some categoric variables:
+df_exoplant_nasa$star_num_stars_cat = as.character(df_exoplant_nasa$sy_snum)
+df_exoplant_nasa$star_num_planets_cat = as.character(df_exoplant_nasa$sy_pnum)
+
 # Column names:
 list_names_nasa = list(
     "planet_name" = "Planet Name",
@@ -277,7 +281,9 @@ list_names_nasa = list(
     "star_gaia_mag_min_error" = "Gaia Magnitude Lower Error",
     "row_update" = "Date of Last Update",
     "planet_publication_date" = "Planetary Parameter Reference Publication Date",
-    "release_date" = "Release Date"    
+    "release_date" = "Release Date",
+    "star_num_stars_cat" = "Number of Stars Categoric",
+    "star_num_planets_cat" = "Number of Planets Categoric"
 )
 
 names(df_exoplant_nasa) = names(list_names_nasa)
@@ -295,77 +301,6 @@ saveRDS(object = list_names_nasa,
         file = paste0(path_data, "list_names_nasa.rds"))
 saveRDS(object = df_exoplant_nasa,
         file = paste0(path_data, "df_exoplanet_nasa.rds"))
-
-
-
-
-
-
-
-# Plot of miss data:
-df_miss = missing_analysis(df_exoplant_eu)
-my_palette = colorRampPalette(c("#111539", "#97A1D9"))
-plot_ly(
-    data = df_miss,
-    x = ~var_name,
-    y = ~non_na_total,
-    type = "bar",
-    text = ~non_na_pct,
-    texttemplate = "%{text} %",
-    textposition = "outside",
-    textfont = list(
-        size = 20,
-        color = my_palette(3)[2]
-    ),
-    color = ~var_name,
-    colors = my_palette(nrow(df_miss)),
-    hovertemplate = paste0("<b>Variable: %{x}<br>",
-                           "Frequency: %{y:,}<br>",
-                           "Proportion: ", df_miss$non_na_pct, " %<br>",
-                           "</b><extra></extra>")
-) %>%
-    layout(
-        title = list(
-            text = "Non-NAs per variable",
-            titlefont = list(
-                size = 20
-            ),
-            tickfont = list(
-                size = 18
-            )
-        ),
-        xaxis = list(
-            title = paste0("<b>Variable</b>"),
-            titlefont = list(
-                size = 20
-            ),
-            tickfont = list(
-                size = 18
-            ),
-            categoryorder = "array"
-        ),
-        yaxis = list(
-            title = "<b>Frequency</b>",
-            titlefont = list(
-                size = 20
-            ),
-            tickfont = list(
-                size = 18
-            )
-        ),
-        margin = list(
-            l = 5,
-            r = 70,
-            t = 50,
-            b = 70
-        ),
-        hoverlabel = list(
-            font = list(
-                size = 16
-            )
-        ),
-        showlegend = FALSE
-    )
 
 
 

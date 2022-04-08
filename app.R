@@ -66,13 +66,11 @@ color3 = "#0B297B"
 
 ##################################################### Data ############################################################
 
-# The Extrasolar Planets Encyclopaedia:
+############# The Extrasolar Planets Encyclopaedia
+
+# Read the data:
 df_exoplant_eu = readRDS(paste0(path_data, "df_exoplanet_eu.rds"))
 list_names_eu = readRDS(paste0(path_data, "list_names_eu.rds"))
-
-# NASA Exoplanet Archive:
-df_exoplant_nasa = readRDS(paste0(path_data, "df_exoplanet_nasa.rds"))
-list_names_nasa = readRDS(paste0(path_data, "list_names_nasa.rds"))
 
 ### Options for the selects
 
@@ -103,6 +101,43 @@ opts_exoplanet_eu_cat_var = unlist(unname(list_opts_exoplanet_eu_cat_var))
 # All variables
 opts_exoplanet_eu_all_vars = unlist(unname(list_names_eu[names(df_exoplant_eu)]))
 
+############# NASA Exoplanet Archive
+
+# Read the data:
+df_exoplant_nasa = readRDS(paste0(path_data, "df_exoplanet_nasa.rds"))
+list_names_nasa = readRDS(paste0(path_data, "list_names_nasa.rds"))
+
+### Options for the selects
+
+# Numeric variables:
+num_vars_nasa = df_exoplant_nasa %>%
+                  dplyr::select_if(is.numeric) %>%
+                  names()
+list_opts_exoplanet_nasa_num_var = list_names_nasa[num_vars_nasa]
+opts_exoplanet_nasa_num_var = unlist(unname(list_opts_exoplanet_nasa_num_var))
+
+# Categoric variables with few levels and numeric variables:
+nice_cat_var_nasa = df_exoplant_nasa %>%
+                      dplyr::select_if(is.character) %>%
+                      dplyr::select_if(has_few_levels) %>%
+                      names()
+list_opts_exoplanet_nasa_num_nicecat_var = list_names_nasa[c(num_vars_nasa, nice_cat_var_nasa)]
+opts_exoplanet_nasa_color_var = unlist(unname(list_opts_exoplanet_nasa_num_nicecat_var))
+
+# Categoric variables with few levels:
+cat_var_nasa = df_exoplant_nasa %>%
+                 dplyr::select_if(is.character) %>%
+                 dplyr::select_if(has_few_levels) %>%
+                 names()
+cat_var_nasa = cat_var_nasa[which(!(cat_var_nasa %in% c("planet_status", "star_magnetic_field")))] # too few data
+list_opts_exoplanet_nasa_cat_var = list_names_nasa[cat_var_nasa]
+opts_exoplanet_nasa_cat_var = unlist(unname(list_opts_exoplanet_nasa_cat_var))
+
+# All variables
+opts_exoplanet_nasa_all_vars = unlist(unname(list_names_nasa[names(df_exoplant_nasa)]))
+
+
+
 # Test:
 # input = list()
 # input$exoplanet_eu_histogram_xvar = "Planet mass (Jupiter mass)"
@@ -123,6 +158,25 @@ opts_exoplanet_eu_all_vars = unlist(unname(list_names_eu[names(df_exoplant_eu)])
 # input$exoplanet_eu_violin_scale = "Linear"
 # input$exoplanet_eu_barplot_xvar = "Detection method"
 # input$exoplanet_eu_table_vars = c("Planet name", "Planet status")
+
+# input$exoplanet_nasa_histogram_xvar = ""
+# input$exoplanet_nasa_histogram_bins = 100
+# input$exoplanet_nasa_histogram_range = c(0, 135.3)
+# input$exoplanet_nasa_2d_density_xvar = ""
+# input$exoplanet_nasa_2d_density_yvar = ""
+# input$exoplanet_nasa_2d_density_xbins = 100
+# input$exoplanet_nasa_2d_density_ybins = 100
+# input$exoplanet_nasa_scatter_xvar = ""
+# input$exoplanet_nasa_scatter_yvar = ""
+# input$exoplanet_nasa_bubble_xvar = ""
+# input$exoplanet_nasa_bubble_yvar = ""
+# input$exoplanet_nasa_bubble_sizevar = ""
+# input$exoplanet_nasa_bubble_colorvar = ""
+# input$exoplanet_nasa_violin_xvar = ""
+# input$exoplanet_nasa_violin_yvar = ""
+# input$exoplanet_nasa_violin_scale = ""
+# input$exoplanet_nasa_barplot_xvar = ""
+# input$exoplanet_nasa_table_vars = c("", "")
 
 
 ################################################### Backend ###########################################################
@@ -467,14 +521,18 @@ ui = fluidPage(
 
         ### Extrasolar Planets Encyclopaedia
         
-        ui_tab_exoplanet_eu(opts_exoplanet_eu_num_var = opts_exoplanet_eu_num_var,
-                            opts_exoplanet_eu_color_var = opts_exoplanet_eu_color_var,
-                            opts_exoplanet_eu_cat_var = opts_exoplanet_eu_cat_var,
-                            opts_exoplanet_eu_all_vars = opts_exoplanet_eu_all_vars),
+        ui_tab_exoplanet_eu(opts_num_var = opts_exoplanet_eu_num_var,
+                            opts_color_var = opts_exoplanet_eu_color_var,
+                            opts_cat_var = opts_exoplanet_eu_cat_var,
+                            opts_all_vars = opts_exoplanet_eu_all_vars),
 
         ### NASA Exoplanet Archive
         
-        ui_tab_exoplanet_nasa()
+        ui_tab_exoplanet_nasa(opts_num_var = opts_exoplanet_eu_num_var,
+                              opts_color_var = opts_exoplanet_eu_color_var,
+                              opts_cat_var = opts_exoplanet_eu_cat_var,
+                              opts_all_vars = opts_exoplanet_eu_all_vars)
+        
         
     )
 )
