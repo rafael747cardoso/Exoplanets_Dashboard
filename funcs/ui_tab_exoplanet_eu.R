@@ -748,7 +748,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                 # Choose the variables:
                                 fluidRow(
                                     column(
-                                        width = 4,
+                                        width = 12,
                                         div(
                                             class = "card-no-border",
                                             div(
@@ -777,7 +777,7 @@ ui_tab_exoplanet_eu = function(opts_exoplanet_eu_num_var,
                                             class = "card-no-border",
                                             div(
                                                 class = "card-body",
-                                                dataTableOutput(
+                                                DT::dataTableOutput(
                                                     outputId = "exoplanet_eu_table"
                                                 ) %>%
                                                     withSpinner(

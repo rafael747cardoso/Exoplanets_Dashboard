@@ -261,10 +261,6 @@ html {background-color: #010000}
     padding-right: 3vw;
 }
 
-.datatables.html-widget.html-widget-output.shiny-bound-output thead {
-    visibility: collapse;
-}
-
 .dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd,
 .dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.even {
 	background-color: transparent;
@@ -275,7 +271,13 @@ html {background-color: #010000}
     border-bottom: 0px !important;
 }
 
+.datatables {
+	color: white !important;
+}
 
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	color: white !important;
+}
 
 
 /*********************************************************************************************************************/

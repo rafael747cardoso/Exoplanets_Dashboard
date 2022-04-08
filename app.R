@@ -400,20 +400,23 @@ server = function(input, output, session){
     
     observe({
         if(!is.na(input$exoplanet_eu_table_vars)){
-            
             df = df_exoplant_eu
             names(df) = opts_exoplanet_eu_all_vars
             table_vars = input$exoplanet_eu_table_vars
-            df = df_exoplant_eu[, table_vars]
-            
-            
-            
+            df = df_exoplant_eu[, names(list_names_eu[which(list_names_eu %in% table_vars)])]
+            df[is.na(df)] = "-"
             
             # Table:
             output$exoplanet_eu_table = DT::renderDataTable(
                 df,
                 options = list(
-                    scrollX = TRUE
+                    scrollX = TRUE,
+                    columnDefs = list(
+                        list(
+                            className = "dt-center",
+                            targets = "_all"
+                        )
+                    )
                 ),
                 rownames = FALSE,
                 colnames = unlist(unname(list_names_eu[names(df)]))
