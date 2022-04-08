@@ -416,7 +416,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_bubble_xvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[13],
+                                                    selected = opts_num_var[30],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -438,7 +438,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_bubble_yvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[16],
+                                                    selected = opts_num_var[22],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -460,7 +460,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_bubble_sizevar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[7],
+                                                    selected = opts_num_var[38],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -482,7 +482,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_bubble_colorvar",
                                                     label = "",
                                                     choices = opts_color_var,
-                                                    selected = opts_color_var[1],
+                                                    selected = opts_color_var[83],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -547,7 +547,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_violin_xvar",
                                                     label = "",
                                                     choices = opts_cat_var,
-                                                    selected = opts_cat_var[2],
+                                                    selected = opts_cat_var[4],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -569,7 +569,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_violin_yvar",
                                                     label = "",
                                                     choices = opts_num_var,
-                                                    selected = opts_num_var[1],
+                                                    selected = opts_num_var[14],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
@@ -657,7 +657,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_barplot_xvar",
                                                     label = "",
                                                     choices = opts_cat_var,
-                                                    selected = opts_cat_var[2],
+                                                    selected = opts_cat_var[7],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )

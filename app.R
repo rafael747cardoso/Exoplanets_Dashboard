@@ -137,22 +137,6 @@ opts_exoplanet_nasa_cat_var = unlist(unname(list_opts_exoplanet_nasa_cat_var))
 opts_exoplanet_nasa_all_vars = unlist(unname(list_names_nasa[names(df_exoplant_nasa)]))
 
 
-# Test:
-# input = list()
-# input$exoplanet_nasa_scatter_xvar = "Eccentricity"
-# input$exoplanet_nasa_scatter_yvar = "Stellar Effective Temperature (K)"
-
-# input$exoplanet_nasa_bubble_xvar = ""
-# input$exoplanet_nasa_bubble_yvar = ""
-# input$exoplanet_nasa_bubble_sizevar = ""
-# input$exoplanet_nasa_bubble_colorvar = ""
-# input$exoplanet_nasa_violin_xvar = ""
-# input$exoplanet_nasa_violin_yvar = ""
-# input$exoplanet_nasa_violin_scale = ""
-# input$exoplanet_nasa_barplot_xvar = ""
-# input$exoplanet_nasa_table_vars = c("", "")
-
-
 ################################################### Backend ###########################################################
 
 server = function(input, output, session){
