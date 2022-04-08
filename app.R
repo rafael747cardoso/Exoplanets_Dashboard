@@ -118,9 +118,9 @@ opts_exoplanet_nasa_num_var = unlist(unname(list_opts_exoplanet_nasa_num_var))
 
 # Categoric variables with few levels and numeric variables:
 nice_cat_var_nasa = df_exoplant_nasa %>%
-                      dplyr::select_if(is.character) %>%
-                      dplyr::select_if(has_few_levels) %>%
-                      names()
+                        dplyr::select_if(is.character) %>%
+                        dplyr::select_if(has_few_levels) %>%
+                        names()
 list_opts_exoplanet_nasa_num_nicecat_var = list_names_nasa[c(num_vars_nasa, nice_cat_var_nasa)]
 opts_exoplanet_nasa_color_var = unlist(unname(list_opts_exoplanet_nasa_num_nicecat_var))
 
@@ -135,7 +135,6 @@ opts_exoplanet_nasa_cat_var = unlist(unname(list_opts_exoplanet_nasa_cat_var))
 
 # All variables
 opts_exoplanet_nasa_all_vars = unlist(unname(list_names_nasa[names(df_exoplant_nasa)]))
-
 
 
 # Test:
@@ -159,7 +158,7 @@ opts_exoplanet_nasa_all_vars = unlist(unname(list_names_nasa[names(df_exoplant_n
 # input$exoplanet_eu_barplot_xvar = "Detection method"
 # input$exoplanet_eu_table_vars = c("Planet name", "Planet status")
 
-# input$exoplanet_nasa_histogram_xvar = ""
+# input$exoplanet_nasa_histogram_xvar = "Default Parameter Set"
 # input$exoplanet_nasa_histogram_bins = 100
 # input$exoplanet_nasa_histogram_range = c(0, 135.3)
 # input$exoplanet_nasa_2d_density_xvar = ""
@@ -481,9 +480,299 @@ server = function(input, output, session){
     
     ########################################## NASA Exoplanet Archive #################################################
     
+    ### Missing Values
     
+    output$exoplanet_nasa_missing_values_plot = renderPlotly({
+        df_names = data.frame(
+            "var_name" = names(list_names_nasa),
+            "var_name_nice" = unlist(unname(list_names_nasa)),
+            stringsAsFactors = FALSE
+        )
+        df_plot = missing_analysis(df_exoplant_nasa) %>%
+                      dplyr::left_join(df_names,
+                                       by = c("var_name" = "var_name"))
+        plot_missing_values(df = df_plot)
+    })
     
+    ### Histogram
     
+    observe({
+        if(!is.null(input$exoplanet_nasa_histogram_xvar) &
+           !is.null(input$exoplanet_nasa_histogram_bins)){
+            # Chosen variable:
+            x_var_name = input$exoplanet_nasa_histogram_xvar
+            x_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == x_var_name)] %>%
+                        names()
+
+            # Dinamic range:
+            xvals = df_exoplant_nasa[which(!is.na(df_exoplant_nasa[x_var])), x_var]
+            decdiff = xvals - trunc(xvals)
+            decdiff_non_zero = decdiff[decdiff > 0]
+            if(length(decdiff_non_zero) == 0){
+                xmin = min(xvals)
+                xmax = max(xvals)
+                xstep = abs(xmax - xmin)/100
+            } else{
+                xmin = round(min(xvals),
+                             digits = 2)
+                xmax = round(max(xvals),
+                             digits = 2)
+                xstep = round(abs(xmax - xmin)/100,
+                              digits = 2)
+            }
+            output$ui_exoplanet_nasa_histogram_range = renderUI({
+                sliderInput(
+                    inputId = "exoplanet_nasa_histogram_range",
+                    label = "",
+                    min = xmin,
+                    max = xmax,
+                    step = xstep,
+                    value = c(xmin, xmax),
+                    width = "100%"
+                )
+            })
+            
+            # Plot:
+            output$exoplanet_nasa_histogram_plot = renderPlotly({
+                if(!is.null(input$exoplanet_nasa_histogram_range)){
+                    x_min = input$exoplanet_nasa_histogram_range[1]
+                    x_max = input$exoplanet_nasa_histogram_range[2]
+                    df_plot = df_exoplant_nasa %>%
+                                  dplyr::filter(eval(parse(text = x_var)) >= x_min &
+                                                eval(parse(text = x_var)) <= x_max)
+                    plot_histogram(df = df_plot,
+                                   x_var = x_var,
+                                   x_var_name = x_var_name,
+                                   nbins = input$exoplanet_nasa_histogram_bins)
+                }
+            })
+            
+        }
+    })
+    
+    ### 2D Density
+    
+    observe({
+        if(!is.null(input$exoplanet_nasa_2d_density_xvar) &
+           !is.null(input$exoplanet_nasa_2d_density_yvar) &
+           !is.null(input$exoplanet_nasa_2d_density_xbins) &
+           !is.null(input$exoplanet_nasa_2d_density_ybins)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_nasa_2d_density_xvar
+            x_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_nasa_2d_density_yvar
+            y_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == y_var_name)] %>%
+                        names()
+            
+            # Plot:
+            output$exoplanet_nasa_2d_density_plot = renderPlotly({
+                plot_2d_density(df = df_exoplant_nasa,
+                                x_var = x_var,
+                                y_var = y_var,
+                                x_var_name = x_var_name,
+                                y_var_name = y_var_name,
+                                x_nbins = input$exoplanet_nasa_2d_density_xbins,
+                                y_nbins = input$exoplanet_nasa_2d_density_ybins)
+            })
+        }
+    })    
+
+    ### Scatter with errors
+    
+    observe({
+        if(!is.null(input$exoplanet_nasa_scatter_xvar) &
+           !is.null(input$exoplanet_nasa_scatter_yvar)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_nasa_scatter_xvar
+            x_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_nasa_scatter_yvar
+            y_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == y_var_name)] %>%
+                        names()
+            
+            # Plot:
+            output$exoplanet_nasa_scatter_plot = renderPlotly({
+                plot_scatter(df = df_exoplant_nasa,
+                             x_var = x_var,
+                             y_var = y_var,
+                             x_var_name = x_var_name,
+                             y_var_name = y_var_name)
+            })
+        }
+    })
+    
+    ### Bubble
+    
+    observe({
+        if(!is.null(input$exoplanet_nasa_bubble_xvar) &
+           !is.null(input$exoplanet_nasa_bubble_yvar) &
+           !is.null(input$exoplanet_nasa_bubble_sizevar) &
+           !is.null(input$exoplanet_nasa_bubble_colorvar)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_nasa_bubble_xvar
+            x_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_nasa_bubble_yvar
+            y_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == y_var_name)] %>%
+                        names()
+            s_var_name = input$exoplanet_nasa_bubble_sizevar
+            s_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == s_var_name)] %>%
+                        names()
+            c_var_name = input$exoplanet_nasa_bubble_colorvar
+            c_var = list_opts_exoplanet_nasa_num_nicecat_var[which(list_opts_exoplanet_nasa_num_nicecat_var == c_var_name)] %>%
+                        names()
+            df_plot = df_exoplant_nasa[, c(x_var, y_var, s_var, c_var)] %>%
+                          tidyr::drop_na()
+
+            # Plot:
+            output$exoplanet_nasa_bubble_plot = renderPlotly({
+                plot_bubble(df = df_plot,
+                            x_var = x_var,
+                            y_var = y_var,
+                            s_var = s_var,
+                            c_var = c_var,
+                            x_var_name = x_var_name,
+                            y_var_name = y_var_name,
+                            s_var_name = s_var_name,
+                            c_var_name = c_var_name)
+            })
+        }
+    })
+    
+    ### Violin
+    
+    observe({
+        if(!is.null(input$exoplanet_nasa_violin_xvar) &
+           !is.null(input$exoplanet_nasa_violin_yvar) &
+           !is.null(input$exoplanet_nasa_violin_scale)){
+            # Chosen variables:
+            x_var_name = input$exoplanet_nasa_violin_xvar
+            x_var = list_opts_exoplanet_nasa_cat_var[which(list_opts_exoplanet_nasa_cat_var == x_var_name)] %>%
+                        names()
+            y_var_name = input$exoplanet_nasa_violin_yvar
+            y_var = list_opts_exoplanet_nasa_num_var[which(list_opts_exoplanet_nasa_num_var == y_var_name)] %>%
+                        names()
+            df_plot = df_exoplant_nasa[, c(x_var, y_var)] %>%
+                          tidyr::drop_na()
+
+            # Levels order:
+            sorted_levels = sort(unique(df_plot[, x_var]))
+            df_plot[, x_var] = factor(x = df_plot[, x_var],
+                                      levels = sorted_levels)
+            
+            # Plot:
+            output$exoplanet_nasa_violin_plot = renderPlotly({
+                plot_violin(df = df_plot,
+                            x_var = x_var,
+                            y_var = y_var,
+                            x_var_name = x_var_name,
+                            y_var_name = y_var_name,
+                            plot_scale = input$exoplanet_nasa_violin_scale)
+            })
+        }
+    })
+    
+    ### Barplot
+    
+    observe({
+        if(!is.null(input$exoplanet_nasa_barplot_xvar)){
+            # Chosen variable:
+            x_var_name = input$exoplanet_nasa_barplot_xvar
+            x_var = list_opts_exoplanet_nasa_cat_var[which(list_opts_exoplanet_nasa_cat_var == x_var_name)] %>%
+                        names()
+
+            # Adapt the data:
+            df_plot = df_exoplant_nasa[, c(x_var)] %>%
+                          as.data.frame() %>%
+                          tidyr::drop_na()
+            names(df_plot) = x_var
+            df_plot = df_plot %>%
+                          dplyr::group_by(eval(parse(text = x_var))) %>%
+                          dplyr::summarise(freq = n()) %>%
+                          as.data.frame() %>%
+                          dplyr::arrange(desc(freq))
+            names(df_plot)[1] = "level"
+
+            # Levels order:
+            df_plot$level = factor(x = df_plot$level,
+                                   levels = unique(df_plot$level))
+            
+            # Relative frequency:
+            df_plot$freq_rel = round(df_plot$freq/sum(df_plot$freq)*100,
+                                     digits = 3)
+            df_plot$freq_rel_char = paste0(df_plot$freq_rel, "%")
+            
+            # Cumulative frequency:
+            df_plot$freq_rel_cum = cumsum(df_plot$freq_rel)
+            df_plot$freq_rel_cum_char = paste0(df_plot$freq_rel_cum, "%")
+            
+            # Plot:
+            output$exoplanet_nasa_barplot_plot = renderPlotly({
+                plot_barplot(df = df_plot,
+                             x_var_name = x_var_name)
+            })
+        }
+    })
+    
+    ### Correlation matrix
+    
+    observe({
+        # Remove the columns with too little data:
+        df_miss = missing_analysis(df_exoplant_nasa) %>%
+                      dplyr::filter(non_na_pct > 10)
+        df_miss$var_name = as.character(df_miss$var_name)
+        df_plot = df_exoplant_nasa[, df_miss$var_name]
+        
+        # Take only the numeric columns:
+        num_vars = df_plot %>%
+                       dplyr::select_if(is.numeric) %>%
+                       names()
+        df_plot = df_plot[, num_vars]
+        list_vars = list_names_nasa[num_vars]
+        names(df_plot) = unlist(unname(list_vars))
+
+        # Correlation:
+        df_plot = (df_plot %>%
+                      as.matrix() %>%
+                      Hmisc::rcorr(type = "pearson"))$r
+        df_plot = reshape2::melt(data = df_plot,
+                                 value.name = "Vars_corr")
+        
+        # Plot:
+        output$exoplanet_nasa_corrmatrix_plot = renderPlotly({
+            plot_corrmatrix(df = df_plot)
+        })
+    })
+    
+    ### Table
+    
+    observe({
+        if(!is.na(input$exoplanet_nasa_table_vars)){
+            df = df_exoplant_nasa
+            names(df) = opts_exoplanet_nasa_all_vars
+            table_vars = input$exoplanet_nasa_table_vars
+            df = df_exoplant_nasa[, names(list_names_nasa[which(list_names_nasa %in% table_vars)])]
+            df[is.na(df)] = "-"
+            
+            # Table:
+            output$exoplanet_nasa_table = DT::renderDataTable(
+                df,
+                options = list(
+                    scrollX = TRUE,
+                    columnDefs = list(
+                        list(
+                            className = "dt-center",
+                            targets = "_all"
+                        )
+                    )
+                ),
+                rownames = FALSE,
+                colnames = unlist(unname(list_names_nasa[names(df)]))
+            )
+            
+        }
+    })
     
     
     
@@ -528,10 +817,10 @@ ui = fluidPage(
 
         ### NASA Exoplanet Archive
         
-        ui_tab_exoplanet_nasa(opts_num_var = opts_exoplanet_eu_num_var,
-                              opts_color_var = opts_exoplanet_eu_color_var,
-                              opts_cat_var = opts_exoplanet_eu_cat_var,
-                              opts_all_vars = opts_exoplanet_eu_all_vars)
+        ui_tab_exoplanet_nasa(opts_num_var = opts_exoplanet_nasa_num_var,
+                              opts_color_var = opts_exoplanet_nasa_color_var,
+                              opts_cat_var = opts_exoplanet_nasa_cat_var,
+                              opts_all_vars = opts_exoplanet_nasa_all_vars)
         
         
     )

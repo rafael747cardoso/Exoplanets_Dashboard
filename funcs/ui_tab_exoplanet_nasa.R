@@ -482,7 +482,7 @@ ui_tab_exoplanet_nasa = function(opts_num_var,
                                                     inputId = "exoplanet_nasa_bubble_colorvar",
                                                     label = "",
                                                     choices = opts_color_var,
-                                                    selected = opts_exoplanet_nasa_color_var[1],
+                                                    selected = opts_color_var[1],
                                                     multiple = FALSE,
                                                     width = "100%"
                                                 )
