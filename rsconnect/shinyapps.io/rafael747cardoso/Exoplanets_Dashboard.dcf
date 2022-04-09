@@ -5,9 +5,9 @@ account: rafael747cardoso
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5752735
-bundleId: 5780450
+bundleId: 5780474
 url: https://rafael747cardoso.shinyapps.io/Exoplanets_Dashboard/
-when: 1649463211.28546
-lastSyncTime: 1649463211.28548
+when: 1649463825.67266
+lastSyncTime: 1649463825.67267
 asMultiple: FALSE
 asStatic: FALSE

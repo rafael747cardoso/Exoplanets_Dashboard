@@ -7,7 +7,7 @@ plot_histogram = function(df, x_var, x_var_name, nbins){
     x_mean = round(mean(df[, x_var], na.rm = TRUE), digits = 2)
     x_median = round(median(df[, x_var], na.rm = TRUE), digits = 2)
     x_std = round(sd(df[, x_var], na.rm = TRUE), digits = 2)
-    x_skewness = round(skewness(df[, x_var], na.rm = TRUE), digits = 2)
+    x_skewness = round(moments::skewness(df[, x_var], na.rm = TRUE), digits = 2)
     title_stats = paste0("<b style = 'color: #c70039'>Mean: ", x_mean, "</b>       ",
                          "<b style = 'color: #ffc300'>Median: ", x_median, "</b>       ",
                          "<b style = 'color: #C1F474'>Standard deviation: ", x_std, "</b>       ",
