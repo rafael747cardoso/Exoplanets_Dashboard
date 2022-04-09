@@ -1,6 +1,8 @@
 
 ### UI of the Extrasolar Planets Encyclopaedia tab
 
+require(shinycssloaders)
+
 ui_tab_exoplanet_eu = function(opts_num_var, 
                                opts_color_var,
                                opts_cat_var,

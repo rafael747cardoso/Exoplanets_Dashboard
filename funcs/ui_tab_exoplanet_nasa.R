@@ -1,6 +1,8 @@
 
 ### UI of the NASA Exoplanet Archive tab
 
+require(shinycssloaders)
+
 ui_tab_exoplanet_nasa = function(opts_num_var, 
                                  opts_color_var,
                                  opts_cat_var,
