@@ -14,17 +14,21 @@ path_lib = "renv/library/R-4.1/x86_64-pc-linux-gnu/"
 
 # Packages:
 packages = c(
+    "Amelia",
+    "dplyr",
+    "DT",
+    "Hmisc",
+    "moments",
+    "plotly",
+    "RColorBrewer",
+    "reshape2",
+    "rsconnect",
     "shiny",
+    "shinycssloaders",
     "shinydashboard",
     "shinyWidgets",
-    "shinycssloaders",
-    "dplyr",
-    "plotly",
-    "DT",
     "stringr",
-    "moments",
-    "Hmisc",
-    "reshape2"
+    "tidyr"
 )
 if(app_dev == TRUE){
     for(pckg in packages){
@@ -411,7 +415,7 @@ server = function(input, output, session){
     ### Table
     
     observe({
-        if(!is.na(input$exoplanet_eu_table_vars)){
+        if(!is.na(input$exoplanet_eu_table_vars[1])){
             df = df_exoplant_eu
             names(df) = opts_exoplanet_eu_all_vars
             table_vars = input$exoplanet_eu_table_vars
@@ -707,7 +711,7 @@ server = function(input, output, session){
     ### Table
     
     observe({
-        if(!is.na(input$exoplanet_nasa_table_vars)){
+        if(!is.na(input$exoplanet_nasa_table_vars[1])){
             df = df_exoplant_nasa
             names(df) = opts_exoplanet_nasa_all_vars
             table_vars = input$exoplanet_nasa_table_vars
