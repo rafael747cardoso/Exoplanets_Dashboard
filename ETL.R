@@ -21,7 +21,6 @@ source(paste0(path_funcs, "missing_analysis.R"))
 source(paste0(path_funcs, "empty_to_na.R"))
 
 
-
 ###################################### The Extrasolar Planets Encyclopaedia ###########################################
 
 # Read the data:
